@@ -1,8 +1,7 @@
 # ConectaBondad
 
-Plataforma que conecta organizaciones verificadas con personas, 
-empresas e instituciones para que la ayuda llegue donde más se 
-necesita en Venezuela.
+La plataforma que conecta necesidades con la solidaridad. 
+Organizaciones verificadas, transparencia total e impacto medible.
 
 ## Estructura del repositorio
 
