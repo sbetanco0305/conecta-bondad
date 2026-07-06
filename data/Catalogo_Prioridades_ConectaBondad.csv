@@ -1,0 +1,5 @@
+﻿id_referencia,nombre,descripcion,orden,color,status
+1,Crítica,"Necesidad inmediata cuya atención no puede postergarse. Riesgo alto para la vida, salud o continuidad del servicio.",1,red,Activo
+2,Alta,Debe atenderse con alta prioridad en el corto plazo.,2,orange,Activo
+3,Media,Necesidad importante que requiere atención planificada.,3,amber,Activo
+4,Baja,Necesidad programable con menor nivel de urgencia.,4,green,Activo

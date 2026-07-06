@@ -1,0 +1,30 @@
+﻿nombre,descripcion,status
+Agua potable,"Agua para consumo humano, almacenamiento y distribución.",Activo
+Alimentos,"Alimentos no perecederos, perecederos y suplementos nutricionales.",Activo
+Medicinas,Medicamentos e insumos farmacéuticos.,Activo
+Equipos médicos,"Equipos, dispositivos y mobiliario médico.",Activo
+Insumos médicos,Material médico descartable y de curación.,Activo
+Ropa,Vestimenta para todas las edades.,Activo
+Calzado,"Zapatos, botas y calzado especializado.",Activo
+Higiene personal,Kits y artículos de higiene personal.,Activo
+Limpieza y saneamiento,Productos de limpieza y desinfección.,Activo
+Material de construcción,Materiales para reparación y reconstrucción.,Activo
+Herramientas,Herramientas manuales y eléctricas.,Activo
+Tecnología,"Computadoras, tablets, teléfonos y equipos tecnológicos.",Activo
+Conectividad,Equipos y servicios de comunicación e Internet.,Activo
+Transporte,"Vehículos, traslados y apoyo logístico.",Activo
+Combustible,"Gasolina, diésel, gas y otros combustibles.",Activo
+Voluntariado,Apoyo presencial de voluntarios.,Activo
+Servicios profesionales,"Servicios médicos, legales, psicológicos, técnicos o administrativos.",Activo
+Educación,"Material educativo, mobiliario y recursos para enseñanza.",Activo
+Protección infantil,"Apoyo especializado para niños, niñas y adolescentes.",Activo
+Atención psicosocial,Apoyo psicológico y salud mental.,Activo
+Alojamiento temporal,"Refugios, camas, colchones y alojamiento.",Activo
+Logística,"Almacenamiento, distribución y coordinación logística.",Activo
+Recursos financieros,Apoyo económico o fondos para ejecución de programas.,Activo
+Equipos de protección personal,"Cascos, guantes, mascarillas, botas y EPP.",Activo
+Rescate y emergencias,Equipos y recursos para atención de emergencias.,Activo
+Energía,"Plantas eléctricas, baterías, paneles solares y suministro energético.",Activo
+Agropecuario,"Semillas, fertilizantes, herramientas agrícolas y apoyo pecuario.",Activo
+Mascotas y animales,Alimentos e insumos para animales afectados.,Activo
+Otro,Categoría abierta para necesidades no clasificadas.,Activo

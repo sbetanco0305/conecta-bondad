@@ -1,0 +1,31 @@
+﻿nombre,abreviatura,categoria,descripcion,status
+Unidad,Und,Cantidad,Elemento individual.,Activo
+Caja,Caja,Cantidad,Caja o contenedor.,Activo
+Kit,Kit,Cantidad,Conjunto de elementos.,Activo
+Paquete,Paq,Cantidad,Paquete o bulto.,Activo
+Saco,Saco,Cantidad,Saco o bolsa de gran capacidad.,Activo
+Bolsa,Bolsa,Cantidad,Bolsa.,Activo
+Botella,Bot,Cantidad,Botella.,Activo
+Lata,Lata,Cantidad,Lata.,Activo
+Frasco,Fr,Cantidad,Frasco.,Activo
+Kilogramo,kg,Peso,Kilogramo.,Activo
+Gramo,g,Peso,Gramo.,Activo
+Tonelada,t,Peso,Tonelada métrica.,Activo
+Litro,L,Volumen,Litro.,Activo
+Mililitro,mL,Volumen,Mililitro.,Activo
+Metro,m,Longitud,Metro lineal.,Activo
+Metro cuadrado,m²,Área,Superficie.,Activo
+Metro cúbico,m³,Volumen,Volumen cúbico.,Activo
+Hora,h,Tiempo,Hora de servicio.,Activo
+Día,día,Tiempo,Día de servicio.,Activo
+Persona,pers,Personas,Persona beneficiaria o voluntaria.,Activo
+Familia,fam,Personas,Grupo familiar.,Activo
+Consulta,cons,Servicios,Consulta profesional.,Activo
+Sesión,ses,Servicios,Sesión de atención.,Activo
+Viaje,viaje,Logística,Traslado o recorrido.,Activo
+Vehículo,veh,Logística,Vehículo disponible.,Activo
+Paleta,pallet,Logística,Paleta de carga.,Activo
+Contenedor,cont,Logística,Contenedor.,Activo
+USD,USD,Moneda,Dólares estadounidenses.,Activo
+EUR,EUR,Moneda,Euros.,Activo
+VES,VES,Moneda,Bolívares venezolanos.,Activo

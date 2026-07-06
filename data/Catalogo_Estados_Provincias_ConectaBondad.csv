@@ -1,0 +1,401 @@
+﻿pais_iso2,pais,estado_provincia,status
+AR,Argentina,Buenos Aires,Activo
+AR,Argentina,Catamarca,Activo
+AR,Argentina,Chaco,Activo
+AR,Argentina,Chubut,Activo
+AR,Argentina,Córdoba,Activo
+AR,Argentina,Corrientes,Activo
+AR,Argentina,Entre Ríos,Activo
+AR,Argentina,Formosa,Activo
+AR,Argentina,Jujuy,Activo
+AR,Argentina,La Pampa,Activo
+AR,Argentina,La Rioja,Activo
+AR,Argentina,Mendoza,Activo
+AR,Argentina,Misiones,Activo
+AR,Argentina,Neuquén,Activo
+AR,Argentina,Río Negro,Activo
+AR,Argentina,Salta,Activo
+AR,Argentina,San Juan,Activo
+AR,Argentina,San Luis,Activo
+AR,Argentina,Santa Cruz,Activo
+AR,Argentina,Santa Fe,Activo
+AR,Argentina,Santiago del Estero,Activo
+AR,Argentina,Tierra del Fuego,Activo
+AR,Argentina,Tucumán,Activo
+AR,Argentina,Ciudad Autónoma de Buenos Aires,Activo
+BO,Bolivia,Beni,Activo
+BO,Bolivia,Chuquisaca,Activo
+BO,Bolivia,Cochabamba,Activo
+BO,Bolivia,La Paz,Activo
+BO,Bolivia,Oruro,Activo
+BO,Bolivia,Pando,Activo
+BO,Bolivia,Potosí,Activo
+BO,Bolivia,Santa Cruz,Activo
+BO,Bolivia,Tarija,Activo
+BR,Brasil,Acre,Activo
+BR,Brasil,Alagoas,Activo
+BR,Brasil,Amapá,Activo
+BR,Brasil,Amazonas,Activo
+BR,Brasil,Bahía,Activo
+BR,Brasil,Ceará,Activo
+BR,Brasil,Distrito Federal,Activo
+BR,Brasil,Espírito Santo,Activo
+BR,Brasil,Goiás,Activo
+BR,Brasil,Maranhão,Activo
+BR,Brasil,Mato Grosso,Activo
+BR,Brasil,Mato Grosso do Sul,Activo
+BR,Brasil,Minas Gerais,Activo
+BR,Brasil,Pará,Activo
+BR,Brasil,Paraíba,Activo
+BR,Brasil,Paraná,Activo
+BR,Brasil,Pernambuco,Activo
+BR,Brasil,Piauí,Activo
+BR,Brasil,Río de Janeiro,Activo
+BR,Brasil,Rio Grande do Norte,Activo
+BR,Brasil,Rio Grande do Sul,Activo
+BR,Brasil,Rondônia,Activo
+BR,Brasil,Roraima,Activo
+BR,Brasil,Santa Catarina,Activo
+BR,Brasil,São Paulo,Activo
+BR,Brasil,Sergipe,Activo
+BR,Brasil,Tocantins,Activo
+CL,Chile,Arica y Parinacota,Activo
+CL,Chile,Tarapacá,Activo
+CL,Chile,Antofagasta,Activo
+CL,Chile,Atacama,Activo
+CL,Chile,Coquimbo,Activo
+CL,Chile,Valparaíso,Activo
+CL,Chile,Metropolitana de Santiago,Activo
+CL,Chile,O'Higgins,Activo
+CL,Chile,Maule,Activo
+CL,Chile,Ñuble,Activo
+CL,Chile,Biobío,Activo
+CL,Chile,La Araucanía,Activo
+CL,Chile,Los Ríos,Activo
+CL,Chile,Los Lagos,Activo
+CL,Chile,Aysén,Activo
+CL,Chile,Magallanes,Activo
+CO,Colombia,Amazonas,Activo
+CO,Colombia,Antioquia,Activo
+CO,Colombia,Arauca,Activo
+CO,Colombia,Atlántico,Activo
+CO,Colombia,Bogotá D.C.,Activo
+CO,Colombia,Bolívar,Activo
+CO,Colombia,Boyacá,Activo
+CO,Colombia,Caldas,Activo
+CO,Colombia,Caquetá,Activo
+CO,Colombia,Casanare,Activo
+CO,Colombia,Cauca,Activo
+CO,Colombia,Cesar,Activo
+CO,Colombia,Chocó,Activo
+CO,Colombia,Córdoba,Activo
+CO,Colombia,Cundinamarca,Activo
+CO,Colombia,Guainía,Activo
+CO,Colombia,Guaviare,Activo
+CO,Colombia,Huila,Activo
+CO,Colombia,La Guajira,Activo
+CO,Colombia,Magdalena,Activo
+CO,Colombia,Meta,Activo
+CO,Colombia,Nariño,Activo
+CO,Colombia,Norte de Santander,Activo
+CO,Colombia,Putumayo,Activo
+CO,Colombia,Quindío,Activo
+CO,Colombia,Risaralda,Activo
+CO,Colombia,San Andrés y Providencia,Activo
+CO,Colombia,Santander,Activo
+CO,Colombia,Sucre,Activo
+CO,Colombia,Tolima,Activo
+CO,Colombia,Valle del Cauca,Activo
+CO,Colombia,Vaupés,Activo
+CO,Colombia,Vichada,Activo
+EC,Ecuador,Azuay,Activo
+EC,Ecuador,Bolívar,Activo
+EC,Ecuador,Cañar,Activo
+EC,Ecuador,Carchi,Activo
+EC,Ecuador,Chimborazo,Activo
+EC,Ecuador,Cotopaxi,Activo
+EC,Ecuador,El Oro,Activo
+EC,Ecuador,Esmeraldas,Activo
+EC,Ecuador,Galápagos,Activo
+EC,Ecuador,Guayas,Activo
+EC,Ecuador,Imbabura,Activo
+EC,Ecuador,Loja,Activo
+EC,Ecuador,Los Ríos,Activo
+EC,Ecuador,Manabí,Activo
+EC,Ecuador,Morona Santiago,Activo
+EC,Ecuador,Napo,Activo
+EC,Ecuador,Orellana,Activo
+EC,Ecuador,Pastaza,Activo
+EC,Ecuador,Pichincha,Activo
+EC,Ecuador,Santa Elena,Activo
+EC,Ecuador,Santo Domingo de los Tsáchilas,Activo
+EC,Ecuador,Sucumbíos,Activo
+EC,Ecuador,Tungurahua,Activo
+EC,Ecuador,Zamora Chinchipe,Activo
+GY,Guyana,Barima-Waini,Activo
+GY,Guyana,Cuyuni-Mazaruni,Activo
+GY,Guyana,Demerara-Mahaica,Activo
+GY,Guyana,East Berbice-Corentyne,Activo
+GY,Guyana,Essequibo Islands-West Demerara,Activo
+GY,Guyana,Mahaica-Berbice,Activo
+GY,Guyana,Pomeroon-Supenaam,Activo
+GY,Guyana,Potaro-Siparuni,Activo
+GY,Guyana,Upper Demerara-Berbice,Activo
+GY,Guyana,Upper Takutu-Upper Essequibo,Activo
+PY,Paraguay,Alto Paraguay,Activo
+PY,Paraguay,Alto Paraná,Activo
+PY,Paraguay,Amambay,Activo
+PY,Paraguay,Asunción,Activo
+PY,Paraguay,Boquerón,Activo
+PY,Paraguay,Caaguazú,Activo
+PY,Paraguay,Caazapá,Activo
+PY,Paraguay,Canindeyú,Activo
+PY,Paraguay,Central,Activo
+PY,Paraguay,Concepción,Activo
+PY,Paraguay,Cordillera,Activo
+PY,Paraguay,Guairá,Activo
+PY,Paraguay,Itapúa,Activo
+PY,Paraguay,Misiones,Activo
+PY,Paraguay,Ñeembucú,Activo
+PY,Paraguay,Paraguarí,Activo
+PY,Paraguay,Presidente Hayes,Activo
+PY,Paraguay,San Pedro,Activo
+PE,Perú,Amazonas,Activo
+PE,Perú,Áncash,Activo
+PE,Perú,Apurímac,Activo
+PE,Perú,Arequipa,Activo
+PE,Perú,Ayacucho,Activo
+PE,Perú,Cajamarca,Activo
+PE,Perú,Callao,Activo
+PE,Perú,Cusco,Activo
+PE,Perú,Huancavelica,Activo
+PE,Perú,Huánuco,Activo
+PE,Perú,Ica,Activo
+PE,Perú,Junín,Activo
+PE,Perú,La Libertad,Activo
+PE,Perú,Lambayeque,Activo
+PE,Perú,Lima,Activo
+PE,Perú,Loreto,Activo
+PE,Perú,Madre de Dios,Activo
+PE,Perú,Moquegua,Activo
+PE,Perú,Pasco,Activo
+PE,Perú,Piura,Activo
+PE,Perú,Puno,Activo
+PE,Perú,San Martín,Activo
+PE,Perú,Tacna,Activo
+PE,Perú,Tumbes,Activo
+PE,Perú,Ucayali,Activo
+SR,Surinam,Brokopondo,Activo
+SR,Surinam,Commewijne,Activo
+SR,Surinam,Coronie,Activo
+SR,Surinam,Marowijne,Activo
+SR,Surinam,Nickerie,Activo
+SR,Surinam,Para,Activo
+SR,Surinam,Paramaribo,Activo
+SR,Surinam,Saramacca,Activo
+SR,Surinam,Sipaliwini,Activo
+SR,Surinam,Wanica,Activo
+UY,Uruguay,Artigas,Activo
+UY,Uruguay,Canelones,Activo
+UY,Uruguay,Cerro Largo,Activo
+UY,Uruguay,Colonia,Activo
+UY,Uruguay,Durazno,Activo
+UY,Uruguay,Flores,Activo
+UY,Uruguay,Florida,Activo
+UY,Uruguay,Lavalleja,Activo
+UY,Uruguay,Maldonado,Activo
+UY,Uruguay,Montevideo,Activo
+UY,Uruguay,Paysandú,Activo
+UY,Uruguay,Río Negro,Activo
+UY,Uruguay,Rivera,Activo
+UY,Uruguay,Rocha,Activo
+UY,Uruguay,Salto,Activo
+UY,Uruguay,San José,Activo
+UY,Uruguay,Soriano,Activo
+UY,Uruguay,Tacuarembó,Activo
+UY,Uruguay,Treinta y Tres,Activo
+VE,Venezuela,Amazonas,Activo
+VE,Venezuela,Anzoátegui,Activo
+VE,Venezuela,Apure,Activo
+VE,Venezuela,Aragua,Activo
+VE,Venezuela,Barinas,Activo
+VE,Venezuela,Bolívar,Activo
+VE,Venezuela,Carabobo,Activo
+VE,Venezuela,Cojedes,Activo
+VE,Venezuela,Delta Amacuro,Activo
+VE,Venezuela,Distrito Capital,Activo
+VE,Venezuela,Falcón,Activo
+VE,Venezuela,Guárico,Activo
+VE,Venezuela,La Guaira,Activo
+VE,Venezuela,Lara,Activo
+VE,Venezuela,Mérida,Activo
+VE,Venezuela,Miranda,Activo
+VE,Venezuela,Monagas,Activo
+VE,Venezuela,Nueva Esparta,Activo
+VE,Venezuela,Portuguesa,Activo
+VE,Venezuela,Sucre,Activo
+VE,Venezuela,Táchira,Activo
+VE,Venezuela,Trujillo,Activo
+VE,Venezuela,Yaracuy,Activo
+VE,Venezuela,Zulia,Activo
+BZ,Belice,Belize,Activo
+BZ,Belice,Cayo,Activo
+BZ,Belice,Corozal,Activo
+BZ,Belice,Orange Walk,Activo
+BZ,Belice,Stann Creek,Activo
+BZ,Belice,Toledo,Activo
+CR,Costa Rica,Alajuela,Activo
+CR,Costa Rica,Cartago,Activo
+CR,Costa Rica,Guanacaste,Activo
+CR,Costa Rica,Heredia,Activo
+CR,Costa Rica,Limón,Activo
+CR,Costa Rica,Puntarenas,Activo
+CR,Costa Rica,San José,Activo
+SV,El Salvador,Ahuachapán,Activo
+SV,El Salvador,Cabañas,Activo
+SV,El Salvador,Chalatenango,Activo
+SV,El Salvador,Cuscatlán,Activo
+SV,El Salvador,La Libertad,Activo
+SV,El Salvador,La Paz,Activo
+SV,El Salvador,La Unión,Activo
+SV,El Salvador,Morazán,Activo
+SV,El Salvador,San Miguel,Activo
+SV,El Salvador,San Salvador,Activo
+SV,El Salvador,San Vicente,Activo
+SV,El Salvador,Santa Ana,Activo
+SV,El Salvador,Sonsonate,Activo
+SV,El Salvador,Usulután,Activo
+GT,Guatemala,Alta Verapaz,Activo
+GT,Guatemala,Baja Verapaz,Activo
+GT,Guatemala,Chimaltenango,Activo
+GT,Guatemala,Chiquimula,Activo
+GT,Guatemala,El Progreso,Activo
+GT,Guatemala,Escuintla,Activo
+GT,Guatemala,Guatemala,Activo
+GT,Guatemala,Huehuetenango,Activo
+GT,Guatemala,Izabal,Activo
+GT,Guatemala,Jalapa,Activo
+GT,Guatemala,Jutiapa,Activo
+GT,Guatemala,Petén,Activo
+GT,Guatemala,Quetzaltenango,Activo
+GT,Guatemala,Quiché,Activo
+GT,Guatemala,Retalhuleu,Activo
+GT,Guatemala,Sacatepéquez,Activo
+GT,Guatemala,San Marcos,Activo
+GT,Guatemala,Santa Rosa,Activo
+GT,Guatemala,Sololá,Activo
+GT,Guatemala,Suchitepéquez,Activo
+GT,Guatemala,Totonicapán,Activo
+GT,Guatemala,Zacapa,Activo
+HN,Honduras,Atlántida,Activo
+HN,Honduras,Choluteca,Activo
+HN,Honduras,Colón,Activo
+HN,Honduras,Comayagua,Activo
+HN,Honduras,Copán,Activo
+HN,Honduras,Cortés,Activo
+HN,Honduras,El Paraíso,Activo
+HN,Honduras,Francisco Morazán,Activo
+HN,Honduras,Gracias a Dios,Activo
+HN,Honduras,Intibucá,Activo
+HN,Honduras,Islas de la Bahía,Activo
+HN,Honduras,La Paz,Activo
+HN,Honduras,Lempira,Activo
+HN,Honduras,Ocotepeque,Activo
+HN,Honduras,Olancho,Activo
+HN,Honduras,Santa Bárbara,Activo
+HN,Honduras,Valle,Activo
+HN,Honduras,Yoro,Activo
+NI,Nicaragua,Boaco,Activo
+NI,Nicaragua,Carazo,Activo
+NI,Nicaragua,Chinandega,Activo
+NI,Nicaragua,Chontales,Activo
+NI,Nicaragua,Estelí,Activo
+NI,Nicaragua,Granada,Activo
+NI,Nicaragua,Jinotega,Activo
+NI,Nicaragua,León,Activo
+NI,Nicaragua,Madriz,Activo
+NI,Nicaragua,Managua,Activo
+NI,Nicaragua,Masaya,Activo
+NI,Nicaragua,Matagalpa,Activo
+NI,Nicaragua,Nueva Segovia,Activo
+NI,Nicaragua,Río San Juan,Activo
+NI,Nicaragua,Rivas,Activo
+NI,Nicaragua,Atlántico Norte,Activo
+NI,Nicaragua,Atlántico Sur,Activo
+PA,Panamá,Bocas del Toro,Activo
+PA,Panamá,Chiriquí,Activo
+PA,Panamá,Coclé,Activo
+PA,Panamá,Colón,Activo
+PA,Panamá,Darién,Activo
+PA,Panamá,Herrera,Activo
+PA,Panamá,Los Santos,Activo
+PA,Panamá,Panamá,Activo
+PA,Panamá,Panamá Oeste,Activo
+PA,Panamá,Veraguas,Activo
+PA,Panamá,Emberá-Wounaan,Activo
+PA,Panamá,Guna Yala,Activo
+PA,Panamá,Ngäbe-Buglé,Activo
+CU,Cuba,Artemisa,Activo
+CU,Cuba,Camagüey,Activo
+CU,Cuba,Ciego de Ávila,Activo
+CU,Cuba,Cienfuegos,Activo
+CU,Cuba,Granma,Activo
+CU,Cuba,Guantánamo,Activo
+CU,Cuba,Holguín,Activo
+CU,Cuba,La Habana,Activo
+CU,Cuba,Las Tunas,Activo
+CU,Cuba,Matanzas,Activo
+CU,Cuba,Mayabeque,Activo
+CU,Cuba,Pinar del Río,Activo
+CU,Cuba,Sancti Spíritus,Activo
+CU,Cuba,Santiago de Cuba,Activo
+CU,Cuba,Villa Clara,Activo
+CU,Cuba,Isla de la Juventud,Activo
+DO,República Dominicana,Azua,Activo
+DO,República Dominicana,Baoruco,Activo
+DO,República Dominicana,Barahona,Activo
+DO,República Dominicana,Dajabón,Activo
+DO,República Dominicana,Distrito Nacional,Activo
+DO,República Dominicana,Duarte,Activo
+DO,República Dominicana,Elías Piña,Activo
+DO,República Dominicana,El Seibo,Activo
+DO,República Dominicana,Espaillat,Activo
+DO,República Dominicana,Hato Mayor,Activo
+DO,República Dominicana,Hermanas Mirabal,Activo
+DO,República Dominicana,Independencia,Activo
+DO,República Dominicana,La Altagracia,Activo
+DO,República Dominicana,La Romana,Activo
+DO,República Dominicana,La Vega,Activo
+DO,República Dominicana,María Trinidad Sánchez,Activo
+DO,República Dominicana,Monseñor Nouel,Activo
+DO,República Dominicana,Monte Cristi,Activo
+DO,República Dominicana,Monte Plata,Activo
+DO,República Dominicana,Pedernales,Activo
+DO,República Dominicana,Peravia,Activo
+DO,República Dominicana,Puerto Plata,Activo
+DO,República Dominicana,Samaná,Activo
+DO,República Dominicana,San Cristóbal,Activo
+DO,República Dominicana,San José de Ocoa,Activo
+DO,República Dominicana,San Juan,Activo
+DO,República Dominicana,San Pedro de Macorís,Activo
+DO,República Dominicana,Sánchez Ramírez,Activo
+DO,República Dominicana,Santiago,Activo
+DO,República Dominicana,Santiago Rodríguez,Activo
+DO,República Dominicana,Santo Domingo,Activo
+DO,República Dominicana,Valverde,Activo
+PR,Puerto Rico,Adjuntas,Activo
+PR,Puerto Rico,Aguada,Activo
+PR,Puerto Rico,Aguadilla,Activo
+PR,Puerto Rico,Aguas Buenas,Activo
+PR,Puerto Rico,Aibonito,Activo
+PR,Puerto Rico,Añasco,Activo
+PR,Puerto Rico,Arecibo,Activo
+PR,Puerto Rico,Bayamón,Activo
+PR,Puerto Rico,Caguas,Activo
+PR,Puerto Rico,Carolina,Activo
+PR,Puerto Rico,Fajardo,Activo
+PR,Puerto Rico,Guaynabo,Activo
+PR,Puerto Rico,Humacao,Activo
+PR,Puerto Rico,Mayagüez,Activo
+PR,Puerto Rico,Ponce,Activo
+PR,Puerto Rico,San Juan,Activo

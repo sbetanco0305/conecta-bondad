@@ -1,0 +1,20 @@
+﻿nombre,descripcion,status
+ONG,Organización no gubernamental.,Activo
+Fundación,Fundación u organización filantrópica.,Activo
+Asociación Civil,Asociación sin fines de lucro.,Activo
+Centro de Salud,"Hospital, clínica, ambulatorio o centro médico.",Activo
+Hospital,Hospital público o privado.,Activo
+Institución Educativa,"Escuela, liceo, universidad o centro educativo.",Activo
+Refugio,Refugio o albergue temporal.,Activo
+Comedor Comunitario,Comedor o programa de alimentación.,Activo
+Organización Religiosa,Iglesia o entidad religiosa.,Activo
+Organismo Público,Entidad gubernamental autorizada.,Activo
+Organización Internacional,Agencia u organismo internacional.,Activo
+Empresa Privada,Empresa registrada como organización participante.,Activo
+Cooperativa,Cooperativa legalmente constituida.,Activo
+Comunidad Organizada,"Consejo comunal, junta o comunidad organizada.",Activo
+Centro de Acopio,Centro de recepción y distribución de ayuda.,Activo
+Protección Civil,Organismo de gestión de riesgos y emergencias.,Activo
+Cuerpo de Bomberos,Organismo de atención de emergencias.,Activo
+Banco de Alimentos,Organización dedicada a distribución de alimentos.,Activo
+Otro,Otra organización no contemplada en las categorías anteriores.,Activo

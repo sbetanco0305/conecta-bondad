@@ -1,0 +1,88 @@
+﻿pais_iso2,pais,ciudad,estado_provincia,es_capital_estado,es_capital_pais,status
+AR,Argentina,Ciudad Autónoma de Buenos Aires,Ciudad Autónoma de Buenos Aires,1,1,Activo
+AR,Argentina,La Plata,Buenos Aires,1,0,Activo
+AR,Argentina,Córdoba,Córdoba,1,0,Activo
+AR,Argentina,Mendoza,Mendoza,1,0,Activo
+AR,Argentina,Rosario,Santa Fe,0,0,Activo
+AR,Argentina,San Miguel de Tucumán,Tucumán,1,0,Activo
+AR,Argentina,Salta,Salta,1,0,Activo
+AR,Argentina,Neuquén,Neuquén,1,0,Activo
+BO,Bolivia,Sucre,Chuquisaca,1,1,Activo
+BO,Bolivia,La Paz,La Paz,1,1,Activo
+BO,Bolivia,Santa Cruz de la Sierra,Santa Cruz,1,0,Activo
+BO,Bolivia,Cochabamba,Cochabamba,1,0,Activo
+BO,Bolivia,Trinidad,Beni,1,0,Activo
+BO,Bolivia,Tarija,Tarija,1,0,Activo
+BR,Brasil,Brasília,Distrito Federal,1,1,Activo
+BR,Brasil,São Paulo,São Paulo,1,0,Activo
+BR,Brasil,Rio de Janeiro,Río de Janeiro,1,0,Activo
+BR,Brasil,Salvador,Bahía,1,0,Activo
+BR,Brasil,Belo Horizonte,Minas Gerais,1,0,Activo
+BR,Brasil,Manaus,Amazonas,1,0,Activo
+BR,Brasil,Belém,Pará,1,0,Activo
+BR,Brasil,Fortaleza,Ceará,1,0,Activo
+CL,Chile,Santiago,Metropolitana de Santiago,1,1,Activo
+CL,Chile,Valparaíso,Valparaíso,1,0,Activo
+CL,Chile,Concepción,Biobío,0,0,Activo
+CL,Chile,Antofagasta,Antofagasta,1,0,Activo
+CL,Chile,Puerto Montt,Los Lagos,1,0,Activo
+CO,Colombia,Bogotá,Bogotá D.C.,1,1,Activo
+CO,Colombia,Medellín,Antioquia,1,0,Activo
+CO,Colombia,Cali,Valle del Cauca,1,0,Activo
+CO,Colombia,Barranquilla,Atlántico,1,0,Activo
+CO,Colombia,Cartagena,Bolívar,1,0,Activo
+CO,Colombia,Bucaramanga,Santander,1,0,Activo
+EC,Ecuador,Quito,Pichincha,1,1,Activo
+EC,Ecuador,Guayaquil,Guayas,0,0,Activo
+EC,Ecuador,Cuenca,Azuay,1,0,Activo
+EC,Ecuador,Manta,Manabí,0,0,Activo
+GY,Guyana,Georgetown,Demerara-Mahaica,1,1,Activo
+PY,Paraguay,Asunción,Asunción,1,1,Activo
+PY,Paraguay,Ciudad del Este,Alto Paraná,0,0,Activo
+PY,Paraguay,Encarnación,Itapúa,1,0,Activo
+PE,Perú,Lima,Lima,1,1,Activo
+PE,Perú,Arequipa,Arequipa,1,0,Activo
+PE,Perú,Cusco,Cusco,1,0,Activo
+PE,Perú,Trujillo,La Libertad,0,0,Activo
+PE,Perú,Piura,Piura,1,0,Activo
+SR,Surinam,Paramaribo,Paramaribo,1,1,Activo
+UY,Uruguay,Montevideo,Montevideo,1,1,Activo
+UY,Uruguay,Salto,Salto,1,0,Activo
+UY,Uruguay,Paysandú,Paysandú,1,0,Activo
+VE,Venezuela,Caracas,Distrito Capital,1,1,Activo
+VE,Venezuela,Maracaibo,Zulia,1,0,Activo
+VE,Venezuela,Valencia,Carabobo,1,0,Activo
+VE,Venezuela,Barquisimeto,Lara,1,0,Activo
+VE,Venezuela,Ciudad Guayana,Bolívar,0,0,Activo
+VE,Venezuela,Maturín,Monagas,1,0,Activo
+VE,Venezuela,San Cristóbal,Táchira,1,0,Activo
+VE,Venezuela,Puerto La Cruz,Anzoátegui,0,0,Activo
+BZ,Belice,Belmopán,Cayo,1,1,Activo
+BZ,Belice,Belize City,Belize,0,0,Activo
+CR,Costa Rica,San José,San José,1,1,Activo
+CR,Costa Rica,Liberia,Guanacaste,1,0,Activo
+CR,Costa Rica,Limón,Limón,1,0,Activo
+SV,El Salvador,San Salvador,San Salvador,1,1,Activo
+SV,El Salvador,Santa Ana,Santa Ana,1,0,Activo
+SV,El Salvador,San Miguel,San Miguel,1,0,Activo
+GT,Guatemala,Ciudad de Guatemala,Guatemala,1,1,Activo
+GT,Guatemala,Quetzaltenango,Quetzaltenango,1,0,Activo
+GT,Guatemala,Escuintla,Escuintla,1,0,Activo
+HN,Honduras,Tegucigalpa,Francisco Morazán,1,1,Activo
+HN,Honduras,San Pedro Sula,Cortés,0,0,Activo
+HN,Honduras,La Ceiba,Atlántida,1,0,Activo
+NI,Nicaragua,Managua,Managua,1,1,Activo
+NI,Nicaragua,León,León,1,0,Activo
+NI,Nicaragua,Granada,Granada,1,0,Activo
+PA,Panamá,Ciudad de Panamá,Panamá,1,1,Activo
+PA,Panamá,David,Chiriquí,1,0,Activo
+PA,Panamá,Colón,Colón,1,0,Activo
+CU,Cuba,La Habana,La Habana,1,1,Activo
+CU,Cuba,Santiago de Cuba,Santiago de Cuba,1,0,Activo
+CU,Cuba,Camagüey,Camagüey,1,0,Activo
+DO,República Dominicana,Santo Domingo,Santo Domingo,1,1,Activo
+DO,República Dominicana,Santiago de los Caballeros,Santiago,1,0,Activo
+DO,República Dominicana,La Romana,La Romana,1,0,Activo
+PR,Puerto Rico,San Juan,San Juan,1,1,Activo
+PR,Puerto Rico,Ponce,Ponce,1,0,Activo
+PR,Puerto Rico,Mayagüez,Mayagüez,1,0,Activo
