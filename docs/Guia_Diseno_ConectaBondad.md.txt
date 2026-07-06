@@ -1,0 +1,185 @@
+# Guía de Diseño --- ConectaBondad.org
+
+**Versión:** 1.0\
+**Estado:** Recomendado para MVP
+
+## 1. Objetivo
+
+Esta guía define los lineamientos visuales y de experiencia de usuario
+para mantener una interfaz consistente, accesible y orientada a la
+acción.
+
+## 2. Principios de Diseño
+
+-   Simplicidad
+-   Transparencia
+-   Confianza
+-   Accesibilidad
+-   Consistencia
+-   Responsive desde el inicio
+
+## 3. Identidad Visual
+
+### Paleta sugerida
+
+  Uso                Color
+  ------------------ ---------
+  Primario           #2563EB
+  Secundario         #10B981
+  Éxito              #16A34A
+  Advertencia        #F59E0B
+  Error              #DC2626
+  Información        #0EA5E9
+  Fondo              #F8FAFC
+  Superficie         #FFFFFF
+  Texto principal    #0F172A
+  Texto secundario   #475569
+  Bordes             #E2E8F0
+
+## 4. Tipografía
+
+-   Fuente: Inter
+-   Títulos: 600--700
+-   Texto: 400
+-   Altura de línea: 1.5
+
+## 5. Espaciado
+
+Escala base de 8 px:
+
+-   4 px
+-   8 px
+-   16 px
+-   24 px
+-   32 px
+-   48 px
+-   64 px
+
+## 6. Componentes
+
+### Botones
+
+-   Primario
+-   Secundario
+-   Terciario
+-   Peligro
+
+Estados:
+
+-   Normal
+-   Hover
+-   Focus
+-   Disabled
+-   Loading
+
+### Formularios
+
+-   Etiquetas visibles
+-   Campos obligatorios marcados
+-   Validación inmediata
+-   Mensajes claros
+-   Ayuda contextual cuando aplique
+
+### Tarjetas
+
+Las tarjetas de campañas y requerimientos mostrarán:
+
+-   Imagen (opcional)
+-   Título
+-   Organización
+-   Ubicación
+-   Prioridad
+-   Estado
+-   Indicador de progreso
+-   Acción principal
+
+### Tablas
+
+-   Ordenamiento
+-   Filtros
+-   Búsqueda
+-   Paginación
+-   Exportación cuando corresponda
+
+## 7. Iconografía
+
+Usar Lucide Icons de forma consistente.
+
+## 8. Responsive
+
+Puntos de corte sugeridos:
+
+-   Mobile: \<640 px
+-   Tablet: 640--1023 px
+-   Desktop: ≥1024 px
+
+## 9. Accesibilidad
+
+-   Contraste mínimo WCAG AA
+-   Navegación por teclado
+-   Estados de foco visibles
+-   Texto alternativo para imágenes
+-   No depender únicamente del color
+
+## 10. Estados del Sistema
+
+### Carga
+
+-   Skeletons
+-   Indicadores de progreso
+
+### Vacío
+
+-   Mensajes útiles
+-   Acción sugerida
+
+### Error
+
+-   Mensaje claro
+-   Opción de reintentar
+
+## 11. Dashboard
+
+Tarjetas KPI consistentes:
+
+-   Icono
+-   Valor
+-   Etiqueta
+-   Tendencia (opcional)
+
+## 12. Portal Público
+
+Priorizar:
+
+1.  Campañas activas
+2.  Requerimientos destacados
+3.  Indicadores globales
+4.  Llamados a la acción:
+    -   Explorar necesidades
+    -   Registrarse
+    -   Publicar requerimiento
+
+## 13. Convenciones
+
+-   Componentes reutilizables.
+-   Colores semánticos para estados.
+-   No usar texto únicamente para comunicar estado; acompañar con iconos
+    o badges.
+
+## 14. Librerías Recomendadas
+
+-   Tailwind CSS
+-   shadcn/ui
+-   Lucide Icons
+-   React Hook Form
+-   Zod
+-   Recharts
+
+## 15. Checklist
+
+-   [ ] Responsive
+-   [ ] Accesible
+-   [ ] Consistente
+-   [ ] Validaciones visibles
+-   [ ] Componentes reutilizables
+-   [ ] Cumple identidad visual

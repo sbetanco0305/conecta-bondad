@@ -1,0 +1,718 @@
+# Documento de Permisos (RBAC) --- ConectaBondad.org
+
+**Versión:** 1.0\
+**Estado:** Recomendado para MVP\
+**Proyecto:** ConectaBondad.org
+
+------------------------------------------------------------------------
+
+# 1. Objetivo
+
+Este documento define el modelo de permisos basado en roles (**RBAC ---
+Role-Based Access Control**) para el MVP de ConectaBondad.
+
+Su propósito es establecer con claridad qué puede hacer cada tipo de
+usuario dentro de la plataforma, tanto a nivel funcional como a nivel de
+base de datos, navegación y seguridad.
+
+------------------------------------------------------------------------
+
+# 2. Roles del Sistema
+
+El MVP contempla cuatro perfiles principales:
+
+  -----------------------------------------------------------------------
+  Rol                                 Descripción
+  ----------------------------------- -----------------------------------
+  Usuario Público                     Visitante no autenticado que
+                                      consulta información pública.
+
+  Administrador                       Usuario responsable de operar y
+                                      supervisar toda la plataforma.
+
+  Organización                        Institución solicitante que publica
+                                      requerimientos de ayuda.
+
+  Colaborador                         Persona natural o jurídica que
+                                      registra aportes para cubrir
+                                      requerimientos.
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 3. Principios de Permisos
+
+El sistema deberá aplicar los siguientes principios:
+
+1.  **Mínimo privilegio:** cada usuario solo accede a lo estrictamente
+    necesario.
+2.  **Separación de responsabilidades:** Administrador, Organización y
+    Colaborador tienen permisos diferenciados.
+3.  **Propiedad de datos:** las Organizaciones y Colaboradores solo
+    gestionan sus propios registros.
+4.  **Acceso público controlado:** el Usuario Público solo consulta
+    información publicada y activa.
+5.  **No eliminación física:** los registros no se eliminan; se
+    gestionan mediante `status`.
+6.  **Validación en frontend y backend:** toda restricción visible debe
+    reforzarse con políticas RLS o validaciones del backend.
+7.  **Trazabilidad:** las acciones relevantes deben quedar registradas o
+    ser inferibles por fechas, estados e historial.
+
+------------------------------------------------------------------------
+
+# 4. Matriz General de Acceso
+
+  -----------------------------------------------------------------------------
+  Módulo / Recurso        Público   Administrador   Organización    Colaborador
+  ---------------- -------------- --------------- -------------- --------------
+  Portal Público             Leer            Leer           Leer           Leer
+
+  Registro           Crear cuenta       No aplica   Crear propia   Crear propio
+                           propia                                
+
+  Login / Logout               Sí              Sí             Sí             Sí
+
+  Recuperar                    Sí              Sí             Sí             Sí
+  contraseña                                                     
+
+  Usuarios                     No     CRUD lógico    Leer propio    Leer propio
+
+  Organizaciones     Ver públicas   CRUD lógico /    CRUD propio   Ver públicas
+                                        verificar                
+
+  Colaboradores                No     CRUD lógico             No    CRUD propio
+
+  Campañas            Ver activas     CRUD lógico    Ver activas    Ver activas
+
+  Requerimientos      Ver activos     CRUD lógico   CRUD propios    Ver activos
+
+  Aportes                      No           Ver /      Gestionar   CRUD propios
+                                       supervisar      recibidos       limitado
+
+  Dashboard                    No              Sí             No             No
+
+  Reportes                     No              Sí             No             No
+
+  Catálogos          Leer activos     CRUD lógico   Leer activos   Leer activos
+
+  Archivos /        Solo públicos     Administrar      Gestionar      Gestionar
+  Documentos                                             propios        propios
+
+  Auditoría /                  No              Sí         Propio         Propio
+  Historial                                             limitado       limitado
+  -----------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 5. Permisos por Rol
+
+## 5.1 Usuario Público
+
+Puede:
+
+-   Consultar la landing page.
+-   Ver campañas activas.
+-   Ver requerimientos activos.
+-   Buscar y filtrar necesidades.
+-   Consultar organizaciones públicas/verificadas.
+-   Iniciar proceso de registro.
+-   Iniciar sesión.
+-   Solicitar recuperación de contraseña.
+
+No puede:
+
+-   Crear requerimientos.
+-   Registrar aportes.
+-   Acceder a dashboards.
+-   Acceder a reportes.
+-   Ver datos privados de organizaciones o colaboradores.
+-   Ver aportes registrados.
+-   Ver documentos internos.
+
+------------------------------------------------------------------------
+
+## 5.2 Administrador
+
+Puede:
+
+-   Administrar usuarios.
+-   Administrar organizaciones.
+-   Verificar, aprobar, suspender o rechazar organizaciones.
+-   Administrar colaboradores.
+-   Crear, editar y cambiar estado de campañas.
+-   Ver todos los requerimientos.
+-   Modificar o suspender requerimientos cuando sea necesario.
+-   Supervisar aportes.
+-   Consultar dashboard.
+-   Generar reportes.
+-   Exportar información a Excel.
+-   Administrar catálogos.
+-   Revisar documentos cargados.
+-   Gestionar estados lógicos.
+
+No puede:
+
+-   Registrarse desde la interfaz pública.
+-   Eliminar físicamente registros.
+-   Acceder o modificar contraseñas en texto plano.
+-   Suplantar usuarios sin trazabilidad.
+
+------------------------------------------------------------------------
+
+## 5.3 Organización
+
+Puede:
+
+-   Registrarse como organización.
+-   Iniciar sesión.
+-   Editar su perfil organizacional.
+-   Cargar o actualizar documentos propios.
+-   Crear requerimientos propios.
+-   Guardar requerimientos como borrador.
+-   Publicar requerimientos propios.
+-   Editar requerimientos propios según reglas de negocio.
+-   Consultar aportes recibidos sobre sus requerimientos.
+-   Aceptar o rechazar aportes recibidos.
+-   Confirmar entregas total o parcialmente.
+-   Consultar historial propio de requerimientos y aportes.
+
+No puede:
+
+-   Crear campañas.
+-   Modificar campañas.
+-   Administrar otras organizaciones.
+-   Ver aportes asociados a requerimientos de otras organizaciones.
+-   Modificar requerimientos de otras organizaciones.
+-   Registrar aportes como colaborador, salvo que exista una cuenta
+    separada de Colaborador.
+-   Acceder al dashboard administrativo.
+-   Exportar reportes administrativos globales.
+
+------------------------------------------------------------------------
+
+## 5.4 Colaborador
+
+Puede:
+
+-   Registrarse como persona natural o jurídica.
+-   Iniciar sesión.
+-   Editar su perfil propio.
+-   Consultar requerimientos activos.
+-   Registrar aportes sobre requerimientos activos o parcialmente
+    cubiertos.
+-   Consultar sus propios aportes.
+-   Editar información permitida de aportes mientras no estén aceptados
+    o entregados.
+-   Consultar estado de sus aportes.
+-   Cancelar un aporte propio si el flujo funcional lo permite antes de
+    la aceptación.
+
+No puede:
+
+-   Crear campañas.
+-   Crear requerimientos.
+-   Gestionar aportes de otros colaboradores.
+-   Aceptar o rechazar aportes.
+-   Confirmar entregas.
+-   Ver datos privados de otros colaboradores.
+-   Acceder al dashboard administrativo.
+-   Exportar reportes administrativos.
+
+------------------------------------------------------------------------
+
+# 6. Matriz CRUD por Entidad
+
+Leyenda:
+
+-   **C:** Crear
+-   **R:** Leer
+-   **U:** Actualizar
+-   **D:** Eliminación lógica / cambio de estado
+-   **---:** Sin permiso
+
+  ----------------------------------------------------------------------------------
+  Entidad               Público        Administrador   Organización   Colaborador
+  --------------------- -------------- --------------- -------------- --------------
+  usuarios              ---            C/R/U/D         R/U propio     R/U propio
+                                                       limitado       limitado
+
+  organizaciones        R públicas     C/R/U/D         C/R/U propia   R públicas
+
+  colaboradores         ---            C/R/U/D         ---            C/R/U propio
+
+  campañas              R activas      C/R/U/D         R activas      R activas
+
+  requerimientos        R activos      C/R/U/D         C/R/U/D        R activos
+                                                       propios        
+
+  aportes               ---            R/U/D           R/U/D          C/R/U propios
+                                       supervisión     recibidos      limitado
+
+  paises                R activos      C/R/U/D         R activos      R activos
+
+  estados_provincias    R activos      C/R/U/D         R activos      R activos
+
+  ciudades              R activos      C/R/U/D         R activos      R activos
+
+  tipos_organizacion    R activos      C/R/U/D         R activos      R activos
+
+  tipos_requerimiento   R activos      C/R/U/D         R activos      R activos
+
+  prioridades           R activos      C/R/U/D         R activos      R activos
+
+  unidades_medida       R activos      C/R/U/D         R activos      R activos
+  ----------------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 7. Permisos Funcionales Detallados
+
+## 7.1 Autenticación
+
+  Acción                                   Público   Administrador   Organización   Colaborador
+  -------------------------------------- --------- --------------- -------------- -------------
+  Iniciar sesión                                Sí              Sí             Sí            Sí
+  Cerrar sesión                                 No              Sí             Sí            Sí
+  Recuperar contraseña                          Sí              Sí             Sí            Sí
+  Registrarse como Organización                 Sí              No             Sí            No
+  Registrarse como Colaborador                  Sí              No             No            Sí
+  Crear Administrador desde UI pública          No              No             No            No
+
+------------------------------------------------------------------------
+
+## 7.2 Campañas
+
+  Acción                                 Público   Administrador   Organización   Colaborador
+  ------------------------------------ --------- --------------- -------------- -------------
+  Ver campañas activas                        Sí              Sí             Sí            Sí
+  Ver campañas inactivas/suspendidas          No              Sí             No            No
+  Crear campaña                               No              Sí             No            No
+  Editar campaña                              No              Sí             No            No
+  Cambiar estado                              No              Sí             No            No
+  Eliminar físicamente                        No              No             No            No
+
+------------------------------------------------------------------------
+
+## 7.3 Organizaciones
+
+  Acción                                      Público   Administrador   Organización   Colaborador
+  ----------------------------------------- --------- --------------- -------------- -------------
+  Ver organizaciones públicas/verificadas          Sí              Sí             Sí            Sí
+  Ver todas las organizaciones                     No              Sí             No            No
+  Crear organización                               Sí              Sí             Sí            No
+  Editar organización propia                       No              Sí             Sí            No
+  Editar cualquier organización                    No              Sí             No            No
+  Verificar organización                           No              Sí             No            No
+  Suspender organización                           No              Sí             No            No
+  Cargar documentos propios                        No              Sí             Sí            No
+  Ver documentos privados                          No              Sí        Propios            No
+
+------------------------------------------------------------------------
+
+## 7.4 Colaboradores
+
+  Acción                          Público   Administrador   Organización   Colaborador
+  ----------------------------- --------- --------------- -------------- -------------
+  Crear colaborador                    Sí              Sí             No            Sí
+  Ver todos los colaboradores          No              Sí             No            No
+  Ver perfil propio                    No              No             No            Sí
+  Editar perfil propio                 No              No             No            Sí
+  Suspender colaborador                No              Sí             No            No
+
+------------------------------------------------------------------------
+
+## 7.5 Requerimientos
+
+  Acción                                        Público   Administrador      Organización   Colaborador
+  ------------------------------------------- --------- --------------- ----------------- -------------
+  Ver requerimientos activos                         Sí              Sí                Sí            Sí
+  Ver requerimientos propios en borrador             No              Sí                Sí            No
+  Ver requerimientos suspendidos/cancelados          No              Sí           Propios            No
+  Crear requerimiento                                No              Sí        Sí, propio            No
+  Guardar borrador                                   No              Sí        Sí, propio            No
+  Publicar requerimiento                             No              Sí        Sí, propio            No
+  Editar requerimiento propio                        No              Sí                Sí            No
+  Editar requerimiento ajeno                         No              Sí                No            No
+  Cambiar estado                                     No              Sí   Propio limitado            No
+  Eliminar físicamente                               No              No                No            No
+
+Restricciones para Organización:
+
+-   Solo puede crear requerimientos asociados a campañas activas.
+-   Solo puede modificar requerimientos de su propia organización.
+-   No puede modificar campos críticos si el requerimiento ya posee
+    aportes.
+-   No puede recibir nuevos aportes si el requerimiento está completado,
+    suspendido o cancelado.
+
+------------------------------------------------------------------------
+
+## 7.6 Aportes
+
+  Acción                          Público   Administrador     Organización       Colaborador
+  ----------------------------- --------- --------------- ---------------- -----------------
+  Ver aportes                          No              Sí   Solo recibidos      Solo propios
+  Registrar aporte                     No              No               No                Sí
+  Aceptar aporte                       No              No     Sí, recibido                No
+  Rechazar aporte                      No              No     Sí, recibido                No
+  Registrar motivo de rechazo          No              No               Sí                No
+  Cambiar a En coordinación            No      Supervisar               Sí                No
+  Confirmar entrega                    No      Supervisar               Sí                No
+  Cancelar aporte                      No              Sí     Sí, recibido   Propio limitado
+  Eliminar físicamente                 No              No               No                No
+
+Restricciones:
+
+-   El colaborador solo puede aportar a requerimientos activos o
+    parcialmente cubiertos.
+-   La cantidad comprometida debe ser mayor que cero.
+-   La cantidad comprometida no puede superar la cantidad disponible.
+-   La cantidad entregada no puede superar la cantidad comprometida.
+-   Todo aporte inicia como `Pendiente de aceptación`.
+-   Solo la organización propietaria del requerimiento puede aceptar,
+    rechazar o confirmar entrega.
+
+------------------------------------------------------------------------
+
+## 7.7 Dashboard y Reportes
+
+  Acción                          Público   Administrador   Organización   Colaborador
+  ----------------------------- --------- --------------- -------------- -------------
+  Ver dashboard general                No              Sí             No            No
+  Ver indicadores por campaña          No              Sí             No            No
+  Ver indicadores por país             No              Sí             No            No
+  Ver reportes                         No              Sí             No            No
+  Filtrar reportes                     No              Sí             No            No
+  Exportar reportes                    No              Sí             No            No
+
+------------------------------------------------------------------------
+
+# 8. Reglas de Visibilidad Pública
+
+El portal público solo debe mostrar:
+
+-   Campañas con `status = Activa`.
+-   Requerimientos con `status = Activo` o `Parcialmente Cubierto`.
+-   Organizaciones visibles o verificadas, según el flujo de validación
+    configurado.
+-   Indicadores calculados sobre datos públicos y activos.
+
+No debe mostrar:
+
+-   Requerimientos en borrador.
+-   Requerimientos suspendidos o cancelados.
+-   Aportes individuales.
+-   Datos personales de colaboradores.
+-   Documentos legales privados.
+-   Observaciones internas.
+-   Información administrativa.
+
+------------------------------------------------------------------------
+
+# 9. Reglas de Propiedad de Datos
+
+## Organización
+
+Una organización solo puede modificar:
+
+-   Su perfil.
+-   Sus documentos.
+-   Sus requerimientos.
+-   Aportes asociados a sus propios requerimientos.
+
+Condición de propiedad:
+
+``` sql
+requerimientos.organizacion_id = auth_user.organizacion_id
+```
+
+## Colaborador
+
+Un colaborador solo puede modificar:
+
+-   Su perfil.
+-   Sus aportes.
+
+Condición de propiedad:
+
+``` sql
+aportes.colaborador_id = auth_user.colaborador_id
+```
+
+## Administrador
+
+El administrador puede operar sobre todos los registros, excepto
+eliminación física y acceso a contraseñas en texto plano.
+
+------------------------------------------------------------------------
+
+# 10. Recomendaciones para Supabase RLS
+
+## 10.1 usuarios
+
+-   Administrador puede leer todos.
+-   Usuario autenticado puede leer su propio registro.
+-   Usuario autenticado puede actualizar solo campos permitidos de su
+    propio registro.
+-   Nadie puede leer `password_hash` desde el cliente.
+-   Nadie puede actualizar `tipo_usuario` desde el cliente.
+-   Nadie puede modificar asociaciones `organizacion_id` o
+    `colaborador_id` desde el cliente, salvo funciones controladas.
+
+## 10.2 organizaciones
+
+-   Público puede leer organizaciones públicas/verificadas/activas.
+-   Organización puede leer y actualizar su propio registro.
+-   Administrador puede leer y actualizar todas.
+-   Solo administrador puede cambiar `status` y `estado_verificacion`.
+
+## 10.3 colaboradores
+
+-   Colaborador puede leer y actualizar su propio registro.
+-   Administrador puede leer y actualizar todos.
+-   Organización no puede leer datos privados de colaboradores, excepto
+    datos mínimos necesarios para coordinar aportes aceptados.
+
+## 10.4 campañas
+
+-   Público y usuarios autenticados pueden leer campañas activas.
+-   Administrador puede crear y actualizar campañas.
+-   Solo administrador puede cambiar estado.
+-   No permitir eliminación física.
+
+## 10.5 requerimientos
+
+-   Público puede leer requerimientos activos o parcialmente cubiertos.
+-   Organización puede leer todos sus propios requerimientos.
+-   Organización puede crear requerimientos propios.
+-   Organización puede actualizar sus requerimientos según reglas de
+    negocio.
+-   Administrador puede leer y actualizar todos.
+-   Colaborador solo puede leer requerimientos visibles para aporte.
+
+## 10.6 aportes
+
+-   Colaborador puede crear aportes propios.
+-   Colaborador puede leer sus propios aportes.
+-   Organización puede leer aportes asociados a sus requerimientos.
+-   Organización puede actualizar estado, motivo de rechazo y
+    confirmación de entrega de aportes recibidos.
+-   Administrador puede leer todos.
+-   Nadie puede eliminar físicamente.
+
+## 10.7 catálogos
+
+-   Todos pueden leer registros activos.
+-   Solo administrador puede crear, editar o cambiar estado.
+
+## 10.8 storage
+
+Buckets recomendados:
+
+  ---------------------------------------------------------------------------
+  Bucket                                 Acceso público Escritura
+  ------------------------ ---------------------------- ---------------------
+  campaign-images                                    Sí Administrador
+
+  organization-documents                             No Organización
+                                                        propietaria /
+                                                        Administrador
+
+  requirement-files                         Condicional Organización
+                                                        propietaria /
+                                                        Administrador
+
+  collaborator-documents                             No Colaborador
+                                                        propietario /
+                                                        Administrador
+  ---------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 11. Estados Controlados por Rol
+
+## Usuarios
+
+  Estado         Cambia Administrador   Cambia Usuario
+  ------------ ---------------------- ----------------
+  Activo                           Sí               No
+  Inactivo                         Sí               No
+  Suspendido                       Sí               No
+
+## Organizaciones
+
+  Estado         Cambia Administrador   Cambia Organización
+  ------------ ---------------------- ---------------------
+  Activo                           Sí                    No
+  Inactivo                         Sí                    No
+  Suspendido                       Sí                    No
+
+## Verificación documental
+
+  Estado                    Cambia Administrador    Cambia Organización
+  ----------------------- ---------------------- ----------------------
+  Pendiente                                   Sí   Por registro inicial
+  En revisión                                 Sí                     No
+  Aprobada                                    Sí                     No
+  Rechazada                                   Sí                     No
+  Información requerida                       Sí                     No
+
+## Requerimientos
+
+  Estado                      Administrador   Organización propietaria   Colaborador
+  ----------------------- ----------------- -------------------------- -------------
+  Borrador                               Sí                         Sí            No
+  Activo                                 Sí                         Sí            No
+  Parcialmente Cubierto     Automático / Sí                 Automático            No
+  Completado                Automático / Sí                 Automático            No
+  Suspendido                             Sí                   Limitado            No
+  Cancelado                              Sí                   Limitado            No
+
+## Aportes
+
+  Estado                      Administrador   Organización propietaria   Colaborador
+  ------------------------- --------------- -------------------------- -------------
+  Pendiente de aceptación               Ver                  Gestionar         Crear
+  Comprometido                          Ver                         Sí           Ver
+  En coordinación                       Ver                         Sí           Ver
+  Entregado Parcialmente                Ver                         Sí           Ver
+  Entregado                             Ver                         Sí           Ver
+  Cancelado                              Sí                         Sí      Limitado
+
+------------------------------------------------------------------------
+
+# 12. Navegación por Rol
+
+## Usuario Público
+
+-   Inicio
+-   Necesidades
+-   Emergencias y programas
+-   Organizaciones
+-   Cómo funciona
+-   Quiénes somos
+-   Iniciar sesión
+-   Regístrate
+
+## Administrador
+
+-   Dashboard
+-   Campañas
+-   Organizaciones
+-   Colaboradores
+-   Requerimientos
+-   Aportes
+-   Reportes
+-   Catálogos
+-   Configuración
+
+## Organización
+
+-   Mis requerimientos
+-   Crear requerimiento
+-   Aportes recibidos
+-   Perfil de organización
+-   Documentos
+-   Ayuda / soporte
+
+## Colaborador
+
+-   Explorar necesidades
+-   Mis aportes
+-   Perfil
+-   Historial
+-   Ayuda / soporte
+
+------------------------------------------------------------------------
+
+# 13. Casos Especiales
+
+## Organización suspendida
+
+-   No puede crear requerimientos.
+-   No puede publicar requerimientos.
+-   Puede iniciar sesión solo si la política lo permite.
+-   Sus requerimientos activos deben ser revisados por Administrador.
+
+## Colaborador suspendido
+
+-   No puede registrar nuevos aportes.
+-   Puede o no iniciar sesión según configuración.
+-   Sus aportes activos deben mantenerse visibles para trazabilidad.
+
+## Campaña inactiva
+
+-   No aparece públicamente.
+-   No admite nuevos requerimientos.
+-   Los requerimientos existentes deben conservar trazabilidad.
+
+## Requerimiento completado
+
+-   No admite nuevos aportes.
+-   Debe mantenerse visible si se desea mostrar impacto público.
+-   Puede aparecer en reportes e indicadores.
+
+## Aporte rechazado
+
+-   Requiere motivo.
+-   Cambia a `Cancelado`.
+-   Debe notificar al colaborador.
+-   No suma a cantidad comprometida.
+
+------------------------------------------------------------------------
+
+# 14. Checklist de Implementación RBAC
+
+-   [ ] Crear roles: Administrador, Organización, Colaborador.
+-   [ ] Definir acceso público separado de usuario autenticado.
+-   [ ] Aplicar RLS en todas las tablas.
+-   [ ] Validar propiedad de Organización.
+-   [ ] Validar propiedad de Colaborador.
+-   [ ] Restringir eliminación física.
+-   [ ] Ocultar datos privados en vistas públicas.
+-   [ ] Proteger buckets de documentos privados.
+-   [ ] Restringir dashboard a Administrador.
+-   [ ] Validar permisos también en funciones/RPC.
+-   [ ] Probar accesos cruzados entre roles.
+-   [ ] Registrar cambios relevantes de estado.
+-   [ ] Probar navegación protegida.
+-   [ ] Evitar exposición de `password_hash`.
+-   [ ] Evitar modificación client-side de `tipo_usuario`.
+
+------------------------------------------------------------------------
+
+# 15. Reglas para Implementación con IA
+
+Al generar módulos en Lovable, Cursor u otra herramienta asistida por
+IA:
+
+1.  No crear pantallas sin validar el rol.
+2.  No confiar únicamente en ocultar botones en la interfaz.
+3.  Toda restricción debe existir también en backend/RLS.
+4.  No permitir eliminación física.
+5.  No exponer campos privados en el portal público.
+6.  No permitir que una Organización vea o edite registros de otra
+    Organización.
+7.  No permitir que un Colaborador vea o edite aportes de otro
+    Colaborador.
+8.  No crear permisos nuevos no documentados.
+9.  No relajar reglas de seguridad para simplificar formularios.
+10. No almacenar indicadores calculados si deben calcularse
+    dinámicamente.
+
+------------------------------------------------------------------------
+
+# 16. Fuente de Verdad
+
+Este documento debe usarse junto con:
+
+-   PRD de ConectaBondad.
+-   Modelo de Datos.
+-   Historias de Usuario.
+-   Casos de Prueba.
+-   Arquitectura Técnica Recomendada.
+-   Guía de Diseño.
+
+Cualquier cambio de alcance funcional debe actualizar primero este
+documento antes de implementarse.

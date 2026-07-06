@@ -1,0 +1,1128 @@
+# Arquitectura Técnica Recomendada
+
+**Proyecto:** ConectaBondad.org  
+**Versión:** 1.0  
+**Estado:** Recomendado para MVP  
+**Fecha:** 2026-07-05
+
+---
+
+# 1. Propósito del Documento
+
+Este documento define la arquitectura técnica recomendada para el desarrollo, despliegue y evolución del MVP de **ConectaBondad.org**, una plataforma web de coordinación humanitaria orientada a conectar organizaciones con necesidades verificadas y colaboradores dispuestos a aportar ayuda.
+
+La arquitectura aquí descrita está pensada para ser implementada en una plataforma de desarrollo asistida por IA, especialmente **Lovable**, utilizando **Supabase** como backend principal.
+
+El objetivo es proporcionar una guía técnica clara para que la implementación mantenga coherencia, seguridad, escalabilidad y trazabilidad durante todo el ciclo de desarrollo.
+
+---
+
+# 2. Principios Técnicos de Arquitectura
+
+La arquitectura técnica deberá respetar los siguientes principios:
+
+## 2.1 Simplicidad
+
+El MVP debe priorizar una arquitectura clara, mantenible y fácil de operar. No se deben introducir servicios, patrones o integraciones que no sean necesarios para validar el producto.
+
+## 2.2 Seguridad por diseño
+
+La seguridad debe implementarse desde la base de datos y no únicamente desde la interfaz. El control de acceso deberá apoyarse en autenticación, autorización, políticas RLS y validaciones del lado servidor.
+
+## 2.3 Trazabilidad
+
+Todas las operaciones relevantes del sistema deben permitir identificar quién creó, actualizó, aceptó, rechazó, comprometió o confirmó información.
+
+## 2.4 Separación de responsabilidades
+
+La interfaz, la lógica de negocio, la persistencia de datos, el almacenamiento documental y la autenticación deben estar claramente separados.
+
+## 2.5 Escalabilidad progresiva
+
+La arquitectura debe permitir evolucionar hacia nuevas fases sin rediseñar el sistema base, especialmente para módulos como mensajería, notificaciones, auditoría avanzada, geolocalización, evidencias y múltiples centros de atención.
+
+## 2.6 No duplicación de lógica crítica
+
+Los cálculos críticos, como cantidades comprometidas, cantidades entregadas, disponibilidad y porcentaje de cobertura, deben centralizarse preferiblemente en funciones de base de datos o vistas controladas, evitando inconsistencias entre pantallas.
+
+---
+
+# 3. Stack Tecnológico Recomendado
+
+## 3.1 Frontend
+
+- **React**
+- **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **shadcn/ui**
+- **React Router**
+- **React Hook Form**
+- **Zod**
+- **TanStack Query**
+- **Lucide React**
+
+## 3.2 Backend
+
+- **Supabase**
+- **PostgreSQL**
+- **Supabase Auth**
+- **Supabase Storage**
+- **Supabase Edge Functions**
+- **Row Level Security (RLS)**
+- **PostgreSQL Functions / RPC**
+- **PostgreSQL Triggers**
+
+## 3.3 Infraestructura y despliegue
+
+- **Lovable** para desarrollo asistido por IA.
+- **Supabase Cloud** para base de datos, autenticación y archivos.
+- **Vercel** o despliegue nativo compatible con Lovable para hosting frontend.
+- **GitHub** como repositorio fuente.
+
+## 3.4 Herramientas complementarias
+
+- **ESLint** para control de calidad de código.
+- **Prettier** para formato automático.
+- **Vitest** para pruebas unitarias.
+- **Playwright** para pruebas end-to-end.
+- **Supabase CLI** para migraciones y entornos locales.
+
+---
+
+# 4. Arquitectura General
+
+La solución se organizará como una aplicación web SPA conectada a Supabase.
+
+```text
+Usuario / Navegador
+        │
+        ▼
+Frontend React + TypeScript
+        │
+        ├── Supabase Auth
+        │
+        ├── Supabase Database / PostgreSQL
+        │
+        ├── Supabase Storage
+        │
+        └── Supabase Edge Functions
+```
+
+## 4.1 Capas principales
+
+### Capa de presentación
+
+Responsable de:
+
+- Portal público.
+- Autenticación.
+- Panel administrativo.
+- Portal de organización.
+- Portal de colaborador.
+- Formularios.
+- Tablas.
+- Tarjetas públicas.
+- Dashboards.
+
+### Capa de estado y datos
+
+Responsable de:
+
+- Consultas a Supabase.
+- Cache de datos.
+- Sincronización de información.
+- Manejo de loading, errores y reintentos.
+
+### Capa de reglas de negocio
+
+Responsable de:
+
+- Validaciones funcionales.
+- Reglas de disponibilidad.
+- Cambios de estado.
+- Cálculos derivados.
+- Control de concurrencia.
+
+Las reglas críticas deberán implementarse en PostgreSQL mediante funciones, triggers o RPC.
+
+### Capa de persistencia
+
+Responsable de:
+
+- Tablas principales.
+- Catálogos.
+- Relaciones.
+- Restricciones.
+- Índices.
+- Vistas.
+- Funciones.
+- Políticas RLS.
+
+### Capa documental
+
+Responsable de:
+
+- Imágenes de campañas.
+- Documentos de organizaciones.
+- Archivos adjuntos de requerimientos.
+- Validaciones de tipo y tamaño.
+- Permisos de acceso a archivos.
+
+---
+
+# 5. Estructura Recomendada del Proyecto
+
+```text
+/src
+│
+├── app
+│   ├── App.tsx
+│   ├── routes.tsx
+│   └── providers.tsx
+│
+├── components
+│   ├── ui
+│   ├── layout
+│   ├── forms
+│   ├── tables
+│   ├── cards
+│   ├── dashboard
+│   └── feedback
+│
+├── features
+│   ├── auth
+│   ├── public
+│   ├── admin
+│   ├── organizations
+│   ├── collaborators
+│   ├── campaigns
+│   ├── requirements
+│   ├── contributions
+│   └── reports
+│
+├── hooks
+│   ├── useAuth.ts
+│   ├── useCurrentUser.ts
+│   └── usePermissions.ts
+│
+├── lib
+│   ├── supabase.ts
+│   ├── validations.ts
+│   ├── constants.ts
+│   ├── formatters.ts
+│   └── errors.ts
+│
+├── services
+│   ├── auth.service.ts
+│   ├── campaigns.service.ts
+│   ├── organizations.service.ts
+│   ├── collaborators.service.ts
+│   ├── requirements.service.ts
+│   ├── contributions.service.ts
+│   └── reports.service.ts
+│
+├── types
+│   ├── database.types.ts
+│   ├── auth.types.ts
+│   ├── domain.types.ts
+│   └── enums.ts
+│
+├── schemas
+│   ├── auth.schema.ts
+│   ├── organization.schema.ts
+│   ├── collaborator.schema.ts
+│   ├── campaign.schema.ts
+│   ├── requirement.schema.ts
+│   └── contribution.schema.ts
+│
+└── tests
+    ├── unit
+    └── e2e
+```
+
+---
+
+# 6. Modelo de Datos Técnico
+
+El modelo de datos oficial del MVP deberá implementarse en Supabase/PostgreSQL respetando las entidades definidas para ConectaBondad.
+
+## 6.1 Tablas principales
+
+- `usuarios`
+- `organizaciones`
+- `colaboradores`
+- `campañas`
+- `requerimientos`
+- `aportes`
+
+## 6.2 Tablas catálogo
+
+- `paises`
+- `estados_provincias`
+- `ciudades`
+- `tipos_organizacion`
+- `tipos_requerimiento`
+- `prioridades`
+- `unidades_medida`
+
+## 6.3 Campos técnicos obligatorios
+
+Toda tabla principal deberá incluir:
+
+- `id UUID PRIMARY KEY`
+- `codigo TEXT UNIQUE NOT NULL`
+- `status TEXT NOT NULL`
+- `fecha_creacion TIMESTAMP WITH TIME ZONE DEFAULT now()`
+- `fecha_actualizacion TIMESTAMP WITH TIME ZONE DEFAULT now()`
+
+## 6.4 Convenciones de base de datos
+
+- Usar nombres de tablas en minúscula y snake_case.
+- Usar UUID como llave primaria.
+- Usar claves foráneas explícitas.
+- Usar índices en campos de búsqueda, filtros y relaciones.
+- No eliminar físicamente registros principales.
+- Usar `status` para eliminación lógica o suspensión.
+- Usar constraints para reglas críticas.
+
+## 6.5 Generación de códigos visibles
+
+Cada entidad principal debe generar automáticamente un código visible:
+
+- Usuario: `USR-000001`
+- Organización: `ORG-000001`
+- Colaborador: `COL-000001`
+- Campaña: `CAM-000001`
+- Requerimiento: `REQ-000001`
+- Aporte: `APO-000001`
+
+La generación debe realizarse en base de datos mediante función o trigger para evitar duplicados.
+
+---
+
+# 7. Autenticación y Autorización
+
+## 7.1 Autenticación
+
+La autenticación deberá implementarse con **Supabase Auth**.
+
+El sistema deberá permitir:
+
+- Inicio de sesión.
+- Cierre de sesión.
+- Recuperación de contraseña.
+- Restablecimiento de contraseña.
+- Validación de sesión activa.
+
+## 7.2 Tabla de perfil funcional
+
+Supabase Auth será responsable de la identidad técnica del usuario.
+
+La tabla `usuarios` será responsable del perfil funcional de ConectaBondad:
+
+- nombre
+- email_usuario
+- tipo_usuario
+- organizacion_id
+- colaborador_id
+- status
+- ultimo_login
+
+## 7.3 Tipos de usuario
+
+- `Administrador`
+- `Organización`
+- `Colaborador`
+
+## 7.4 Redirección por rol
+
+Después del login exitoso:
+
+- Administrador → Dashboard Administrativo.
+- Organización → Gestión de Requerimientos.
+- Colaborador → Mis Aportes.
+
+## 7.5 Reglas de seguridad de autenticación
+
+- No almacenar contraseñas en texto plano.
+- No revelar si el correo o la contraseña son incorrectos.
+- Validar que el usuario se encuentre activo.
+- Validar que el tipo seleccionado coincida con el perfil funcional.
+- Registrar `ultimo_login` después de un acceso exitoso.
+- Invalidar sesión al cerrar sesión.
+- No permitir acceso a rutas protegidas usando el botón “Atrás” del navegador después del logout.
+
+---
+
+# 8. Row Level Security (RLS)
+
+Todas las tablas principales deberán tener RLS habilitado.
+
+## 8.1 Política general
+
+Ninguna tabla principal debe quedar expuesta sin políticas explícitas.
+
+```sql
+ALTER TABLE usuarios ENABLE ROW LEVEL SECURITY;
+ALTER TABLE organizaciones ENABLE ROW LEVEL SECURITY;
+ALTER TABLE colaboradores ENABLE ROW LEVEL SECURITY;
+ALTER TABLE campañas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE requerimientos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE aportes ENABLE ROW LEVEL SECURITY;
+```
+
+## 8.2 Reglas recomendadas por rol
+
+### Usuario público
+
+Puede leer:
+
+- campañas activas.
+- requerimientos activos o parcialmente cubiertos.
+- catálogos activos.
+- información pública de organizaciones activas/verificadas.
+
+No puede crear, editar ni eliminar registros de negocio.
+
+### Administrador
+
+Puede:
+
+- leer todas las entidades.
+- crear y editar campañas.
+- administrar usuarios.
+- administrar organizaciones.
+- administrar colaboradores.
+- consultar reportes.
+- consultar dashboard.
+- cambiar estados.
+
+### Organización
+
+Puede:
+
+- leer y editar su propia organización.
+- crear requerimientos propios.
+- editar requerimientos propios según reglas de negocio.
+- consultar aportes recibidos sobre sus requerimientos.
+- aceptar o rechazar aportes recibidos.
+- confirmar entregas.
+
+No puede:
+
+- editar requerimientos de otras organizaciones.
+- registrar aportes como colaborador.
+- acceder al dashboard administrativo.
+
+### Colaborador
+
+Puede:
+
+- leer y editar su propio perfil.
+- leer requerimientos publicados.
+- registrar aportes propios.
+- consultar sus propios aportes.
+
+No puede:
+
+- aceptar aportes.
+- confirmar entregas.
+- editar requerimientos.
+- acceder al dashboard administrativo.
+
+---
+
+# 9. Supabase Storage
+
+## 9.1 Buckets recomendados
+
+```text
+campaign-images
+organization-documents
+requirement-attachments
+user-avatars
+```
+
+## 9.2 Reglas por bucket
+
+### `campaign-images`
+
+- Escritura: Administrador.
+- Lectura pública: campañas activas.
+- Formatos: JPG, PNG, WEBP.
+- Tamaño máximo: 5 MB.
+
+### `organization-documents`
+
+- Escritura: Organización propietaria y Administrador.
+- Lectura: Organización propietaria y Administrador.
+- No debe ser público.
+- Formatos: PDF, JPG, PNG.
+- Tamaño máximo recomendado: 10 MB.
+
+### `requirement-attachments`
+
+- Escritura: Organización propietaria.
+- Lectura pública: solo si el requerimiento está publicado.
+- Formatos: JPG, PNG, PDF.
+- Máximo: 3 archivos por requerimiento.
+- Tamaño máximo: 2 MB por archivo.
+
+### `user-avatars`
+
+- Escritura: usuario propietario.
+- Lectura pública o autenticada según decisión de diseño.
+
+## 9.3 Convención de rutas
+
+```text
+campaign-images/{campaign_id}/{filename}
+organization-documents/{organization_id}/{filename}
+requirement-attachments/{requirement_id}/{filename}
+user-avatars/{user_id}/{filename}
+```
+
+---
+
+# 10. Lógica de Negocio Crítica
+
+## 10.1 Cálculos de requerimientos
+
+El sistema deberá calcular automáticamente:
+
+```text
+cantidad_disponible = cantidad_requerida - cantidad_comprometida
+porcentaje_cobertura = cantidad_entregada / cantidad_requerida * 100
+```
+
+## 10.2 Cantidad comprometida
+
+Debe calcularse como la suma de los aportes en estado:
+
+- `Comprometido`
+- `En coordinación`
+- `Entregado Parcialmente`
+- `Entregado`
+
+No deben sumar los aportes:
+
+- `Pendiente de aceptación`
+- `Cancelado`
+
+## 10.3 Cantidad entregada
+
+Debe calcularse como la suma de `cantidad_entregada` de los aportes no cancelados.
+
+## 10.4 Estados de requerimiento
+
+Estados permitidos:
+
+- `Borrador`
+- `Activo`
+- `Parcialmente Cubierto`
+- `Completado`
+- `Suspendido`
+- `Cancelado`
+
+Transiciones recomendadas:
+
+```text
+Borrador → Activo
+Activo → Parcialmente Cubierto
+Parcialmente Cubierto → Completado
+Activo → Suspendido
+Parcialmente Cubierto → Suspendido
+Activo → Cancelado
+```
+
+## 10.5 Estados de aporte
+
+Estados permitidos:
+
+- `Pendiente de aceptación`
+- `Comprometido`
+- `En coordinación`
+- `Entregado Parcialmente`
+- `Entregado`
+- `Cancelado`
+
+Transiciones recomendadas:
+
+```text
+Pendiente de aceptación → Comprometido
+Pendiente de aceptación → Cancelado
+Comprometido → En coordinación
+En coordinación → Entregado Parcialmente
+En coordinación → Entregado
+Entregado Parcialmente → Entregado
+```
+
+## 10.6 Control de concurrencia
+
+Antes de crear un aporte, el sistema debe:
+
+1. Recalcular la cantidad disponible en base de datos.
+2. Validar que la cantidad solicitada no supere la disponibilidad.
+3. Crear el aporte en una operación transaccional.
+4. Retornar error si la disponibilidad cambió.
+
+Esta operación debe implementarse mediante RPC o Edge Function, no únicamente desde el frontend.
+
+Función recomendada:
+
+```text
+registrar_aporte_seguro(
+  p_requerimiento_id uuid,
+  p_colaborador_id uuid,
+  p_cantidad numeric,
+  p_fecha_entrega_estimada date,
+  p_observaciones text
+)
+```
+
+---
+
+# 11. Edge Functions Recomendadas
+
+El MVP puede operar principalmente con Supabase Client y RPC, pero se recomiendan Edge Functions para operaciones que requieren mayor control.
+
+## 11.1 Funciones recomendadas
+
+### `send-welcome-email`
+
+Envía correo de bienvenida después del registro de organización o colaborador.
+
+### `send-password-reset`
+
+Gestiona envío de enlaces de recuperación cuando se requiera personalización adicional.
+
+### `notify-organization-new-contribution`
+
+Notifica a la organización cuando recibe un nuevo aporte pendiente.
+
+### `notify-contributor-contribution-status`
+
+Notifica al colaborador cuando su aporte es aceptado, rechazado o confirmado.
+
+### `export-report`
+
+Genera reportes filtrados cuando la exportación requiera reglas adicionales del lado servidor.
+
+---
+
+# 12. Rutas del Frontend
+
+## 12.1 Rutas públicas
+
+```text
+/
+/campanas
+/campanas/:id
+/requerimientos
+/requerimientos/:id
+/login
+/registro/organizacion
+/registro/colaborador
+/recuperar-contrasena
+/restablecer-contrasena
+```
+
+## 12.2 Rutas administrativas
+
+```text
+/admin
+/admin/dashboard
+/admin/campanas
+/admin/campanas/nueva
+/admin/campanas/:id
+/admin/organizaciones
+/admin/colaboradores
+/admin/requerimientos
+/admin/aportes
+/admin/reportes
+/admin/catalogos
+```
+
+## 12.3 Rutas de organización
+
+```text
+/org
+/org/perfil
+/org/requerimientos
+/org/requerimientos/nuevo
+/org/requerimientos/:id
+/org/aportes-recibidos
+```
+
+## 12.4 Rutas de colaborador
+
+```text
+/colaborador
+/colaborador/perfil
+/colaborador/aportes
+/colaborador/aportes/:id
+/requerimientos/:id/aportar
+```
+
+---
+
+# 13. Gestión de Estado en Frontend
+
+## 13.1 Estado de servidor
+
+Usar **TanStack Query** para:
+
+- Listados.
+- Detalles.
+- Filtros.
+- Mutaciones.
+- Invalidación de cache.
+- Reintentos controlados.
+
+## 13.2 Estado de sesión
+
+Usar un proveedor global:
+
+```text
+AuthProvider
+```
+
+Responsable de:
+
+- sesión actual.
+- usuario funcional.
+- rol.
+- permisos.
+- estado de carga.
+
+## 13.3 Formularios
+
+Usar:
+
+- React Hook Form.
+- Zod.
+- Validaciones sincronizadas con reglas de backend.
+
+---
+
+# 14. Validaciones
+
+## 14.1 Validaciones frontend
+
+El frontend debe validar:
+
+- campos obligatorios.
+- formato de correo.
+- formatos de archivo.
+- tamaño de archivo.
+- cantidades mayores que cero.
+- confirmación de contraseña.
+- fechas válidas.
+
+## 14.2 Validaciones backend
+
+El backend debe validar:
+
+- unicidad de correo.
+- unicidad de identificador legal.
+- permisos por rol.
+- disponibilidad antes de registrar aportes.
+- transiciones de estado.
+- pertenencia de registros al usuario autenticado.
+- integridad referencial.
+
+## 14.3 Regla crítica
+
+Toda validación que afecte seguridad, dinero, disponibilidad, permisos o integridad de datos debe existir en backend, aunque también se repita en frontend para mejorar la experiencia de usuario.
+
+---
+
+# 15. Dashboard y Reportes
+
+## 15.1 Cálculo de indicadores
+
+Los indicadores deben calcularse en tiempo real a partir de las tablas principales.
+
+No deben almacenarse indicadores precalculados en tablas principales.
+
+## 15.2 Vistas recomendadas
+
+```text
+vw_dashboard_general
+vw_indicadores_campana
+vw_indicadores_pais
+vw_requerimientos_publicos
+vw_reporte_organizaciones
+vw_reporte_colaboradores
+vw_reporte_campanas
+vw_reporte_requerimientos
+vw_reporte_aportes
+```
+
+## 15.3 Exportación
+
+La exportación a Excel debe respetar:
+
+- filtros aplicados.
+- ordenamiento aplicado.
+- permisos del usuario autenticado.
+- columnas visibles o definidas por reporte.
+
+---
+
+# 16. Auditoría e Historial
+
+Aunque la auditoría avanzada puede quedar para una fase posterior, se recomienda dejar preparada la arquitectura.
+
+## 16.1 Tabla recomendada
+
+```text
+audit_logs
+```
+
+Campos sugeridos:
+
+- `id`
+- `usuario_id`
+- `entidad`
+- `entidad_id`
+- `accion`
+- `valor_anterior`
+- `valor_nuevo`
+- `fecha_creacion`
+- `ip_address`
+- `user_agent`
+
+## 16.2 Eventos mínimos a auditar
+
+- Creación de organización.
+- Cambio de estado de organización.
+- Creación de campaña.
+- Publicación de requerimiento.
+- Cambio de estado de requerimiento.
+- Registro de aporte.
+- Aceptación o rechazo de aporte.
+- Confirmación de entrega.
+- Cambio de estado de usuario.
+
+---
+
+# 17. Variables de Entorno
+
+Variables recomendadas:
+
+```text
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+SUPABASE_JWT_SECRET=
+APP_URL=
+EMAIL_PROVIDER_API_KEY=
+EMAIL_FROM=
+```
+
+## 17.1 Reglas
+
+- Nunca exponer `SUPABASE_SERVICE_ROLE_KEY` en el frontend.
+- Usar únicamente `VITE_SUPABASE_ANON_KEY` en cliente web.
+- Mantener variables sensibles en entorno seguro.
+- Separar entornos de desarrollo, staging y producción.
+
+---
+
+# 18. Entornos Recomendados
+
+## 18.1 Desarrollo
+
+Uso para construcción e iteración rápida.
+
+## 18.2 Staging
+
+Uso para validación funcional, pruebas de usuario y revisión antes de producción.
+
+## 18.3 Producción
+
+Uso para operación real.
+
+## 18.4 Separación de datos
+
+Cada entorno debe tener:
+
+- Proyecto Supabase independiente.
+- Base de datos independiente.
+- Storage independiente.
+- Variables de entorno independientes.
+
+---
+
+# 19. Estrategia de Migraciones
+
+Usar Supabase CLI para versionar cambios de base de datos.
+
+## 19.1 Estructura recomendada
+
+```text
+/supabase
+│
+├── migrations
+├── seed.sql
+├── functions
+└── config.toml
+```
+
+## 19.2 Orden recomendado de migraciones
+
+1. Extensiones PostgreSQL.
+2. Enums.
+3. Catálogos.
+4. Tablas principales.
+5. Relaciones.
+6. Índices.
+7. Funciones.
+8. Triggers.
+9. Vistas.
+10. Políticas RLS.
+11. Datos semilla.
+
+---
+
+# 20. Pruebas
+
+## 20.1 Pruebas unitarias
+
+Cubrir:
+
+- validadores.
+- formateadores.
+- reglas de permisos.
+- funciones auxiliares.
+
+## 20.2 Pruebas de integración
+
+Cubrir:
+
+- registro de organización.
+- registro de colaborador.
+- login.
+- publicación de requerimiento.
+- registro de aporte.
+- aceptación de aporte.
+- confirmación de entrega.
+
+## 20.3 Pruebas end-to-end
+
+Flujos críticos:
+
+1. Organización se registra.
+2. Administrador valida organización.
+3. Organización publica requerimiento.
+4. Colaborador se registra.
+5. Colaborador registra aporte.
+6. Organización acepta aporte.
+7. Organización confirma entrega.
+8. Dashboard actualiza indicadores.
+
+## 20.4 Pruebas de seguridad
+
+Validar:
+
+- acceso no autorizado.
+- modificación de registros ajenos.
+- rutas protegidas.
+- carga de archivos inválidos.
+- sobrecompromiso de requerimientos.
+- exposición de documentos privados.
+
+---
+
+# 21. Accesibilidad y Responsive Design
+
+## 21.1 Responsive
+
+La interfaz debe funcionar correctamente en:
+
+- móvil.
+- tablet.
+- escritorio.
+
+## 21.2 Accesibilidad mínima
+
+Cumplir buenas prácticas:
+
+- etiquetas en formularios.
+- contraste suficiente.
+- navegación por teclado.
+- mensajes de error claros.
+- estados de foco visibles.
+- textos alternativos en imágenes relevantes.
+
+---
+
+# 22. Observabilidad y Manejo de Errores
+
+## 22.1 Manejo de errores
+
+El sistema debe distinguir:
+
+- errores de validación.
+- errores de autenticación.
+- errores de autorización.
+- errores de red.
+- errores inesperados.
+
+## 22.2 Mensajes al usuario
+
+Los mensajes deben ser claros, breves y accionables.
+
+Ejemplo:
+
+```text
+La disponibilidad del requerimiento cambió mientras registrabas tu aporte. La cantidad disponible actual es de XX unidades. Ajusta tu aporte para continuar.
+```
+
+## 22.3 Logging
+
+Registrar errores críticos en backend o servicio de observabilidad cuando esté disponible.
+
+---
+
+# 23. Decisiones Técnicas Clave
+
+## 23.1 Usar Supabase como backend principal
+
+Supabase cubre autenticación, base de datos, storage, funciones serverless y políticas RLS, reduciendo complejidad del MVP.
+
+## 23.2 Centralizar seguridad en RLS
+
+La protección de datos no debe depender únicamente del frontend. RLS permite controlar el acceso desde la base de datos.
+
+## 23.3 Implementar aportes con RPC transaccional
+
+El registro de aportes puede sufrir condiciones de carrera. Por eso debe implementarse una operación transaccional en base de datos.
+
+## 23.4 Calcular indicadores en vistas
+
+Los dashboards deben calcular información en tiempo real sin almacenar métricas derivadas.
+
+## 23.5 Mantener mensajería avanzada fuera del MVP
+
+La mensajería, notificaciones multicanal y auditoría avanzada deben quedar preparadas arquitectónicamente, pero no bloquear el MVP.
+
+---
+
+# 24. Riesgos Técnicos y Mitigaciones
+
+| Riesgo | Impacto | Mitigación |
+|---|---:|---|
+| RLS mal configurado | Alto | Pruebas de autorización por rol antes de producción |
+| Sobrecompromiso de requerimientos | Alto | RPC transaccional para registro de aportes |
+| Exposición de documentos privados | Alto | Buckets privados y políticas Storage estrictas |
+| Inconsistencia de indicadores | Medio | Vistas y funciones centralizadas |
+| Cambios no versionados en BD | Medio | Supabase CLI y migraciones |
+| Formularios inconsistentes | Medio | React Hook Form + Zod + componentes reutilizables |
+| Crecimiento futuro no previsto | Medio | Preparar auditoría, centros/proyectos y notificaciones como extensiones futuras |
+
+---
+
+# 25. Alcance Técnico del MVP
+
+## Incluido
+
+- Portal público.
+- Autenticación.
+- Registro de organizaciones.
+- Registro de colaboradores.
+- Gestión de campañas.
+- Gestión de requerimientos.
+- Gestión de aportes.
+- Dashboard administrativo.
+- Reportes exportables.
+- Storage de imágenes y documentos.
+- RLS.
+- Validaciones funcionales.
+
+## No incluido
+
+- Pasarela de pagos.
+- Donaciones monetarias en línea.
+- Aplicación móvil nativa.
+- Multilenguaje.
+- WhatsApp, SMS o correo masivo avanzado.
+- Firma electrónica.
+- Geolocalización avanzada.
+- Validación automática de documentos.
+- Mensajería avanzada.
+
+---
+
+# 26. Recomendación para Evolución Futura
+
+Se recomienda dejar prevista una entidad futura llamada:
+
+```text
+centros_atencion
+```
+
+o
+
+```text
+proyectos
+```
+
+Esta entidad se ubicaría entre `organizaciones` y `requerimientos`, permitiendo que una organización administre múltiples sedes, hospitales, refugios, comedores, escuelas o centros de distribución.
+
+Para el MVP puede mantenerse oculta o no implementarse físicamente, pero debe considerarse en el diseño para evitar una reestructuración mayor en fases posteriores.
+
+---
+
+# 27. Prompt Base para Lovable
+
+Usar este documento como fuente técnica oficial para implementar ConectaBondad.
+
+Implementa el proyecto usando React, TypeScript, Vite, Tailwind, shadcn/ui y Supabase.
+
+Respeta estrictamente:
+
+- modelo de datos definido.
+- roles de usuario.
+- reglas RLS.
+- flujos funcionales.
+- estados de requerimientos.
+- estados de aportes.
+- validaciones de archivos.
+- restricciones de seguridad.
+- cálculo dinámico de indicadores.
+
+No inventes funcionalidades fuera del MVP.
+
+No implementes integraciones externas no especificadas.
+
+Toda lógica crítica de permisos, disponibilidad y cambios de estado debe validarse en backend o base de datos, no solamente en frontend.
+
+---
+
+# 28. Criterio de Aceptación Técnico
+
+La arquitectura se considerará correctamente implementada cuando:
+
+- La aplicación compile sin errores.
+- Las rutas públicas y protegidas funcionen según rol.
+- Las políticas RLS impidan acceso no autorizado.
+- Los registros se creen con códigos automáticos.
+- Los archivos se almacenen en buckets correctos.
+- Los aportes no puedan exceder la disponibilidad real.
+- Los indicadores se calculen dinámicamente.
+- Los reportes respeten filtros y permisos.
+- Las pruebas funcionales principales pasen correctamente.
+- No existan llaves sensibles expuestas en el frontend.
+
+---
+
+# 29. Resumen Ejecutivo
+
+La arquitectura recomendada para ConectaBondad combina un frontend moderno en React/TypeScript con Supabase como backend integral. Esta decisión reduce la complejidad operativa, acelera el desarrollo asistido por IA y permite implementar seguridad, trazabilidad, autenticación, base de datos, almacenamiento y funciones serverless dentro de un mismo ecosistema.
+
+El punto más crítico de la arquitectura es asegurar que las reglas sensibles no dependan únicamente del frontend. Las políticas RLS, funciones transaccionales, triggers, constraints e índices deben proteger la integridad del sistema desde la base de datos.
+
+Esta arquitectura es suficiente para construir el MVP y, al mismo tiempo, deja abierta la evolución hacia módulos más avanzados como mensajería, evidencias, auditoría completa, geolocalización, notificaciones multicanal y centros de atención.

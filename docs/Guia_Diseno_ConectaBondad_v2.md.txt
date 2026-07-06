@@ -1,0 +1,168 @@
+# Guía de Diseño --- ConectaBondad.org
+
+**Versión:** 2.0 (alineada con el prototipo Lovable)
+
+## Objetivo
+
+Esta guía convierte el prototipo visual en la referencia oficial para el
+desarrollo del MVP. Todo componente nuevo debe reutilizar los patrones
+aquí definidos.
+
+# 1. Identidad visual
+
+## Tipografía
+
+-   Títulos: **Poppins SemiBold**
+-   Texto, formularios y tablas: **Inter Regular**
+-   Escala:
+    -   H1: 64/72
+    -   H2: 48/56
+    -   H3: 36/44
+    -   H4: 28/36
+    -   Body: 18/30
+    -   Small: 14/22
+
+## Paleta (design tokens)
+
+  Token              Valor
+  ------------------ ---------
+  color-primary      #1266F1
+  color-success      #2BB673
+  color-warning      #FFC643
+  color-danger       #FF6B6B
+  color-dark         #0D1B2A
+  color-text         #374151
+  color-border       #E5E7EB
+  color-surface      #FFFFFF
+  color-background   #F8FAFC
+
+Los colores pastel de categorías se obtienen aplicando versiones claras
+del color principal.
+
+# 2. Estilo general
+
+-   Bordes redondeados (16--24 px).
+-   Sombras suaves.
+-   Mucho espacio en blanco.
+-   Ilustraciones y degradados muy sutiles.
+-   Iconografía lineal (Lucide Icons).
+
+# 3. Grid
+
+-   Contenedor máximo: 1280 px.
+-   Grid de 12 columnas.
+-   Espaciado base: 8 px.
+-   Separaciones frecuentes: 24, 32, 48 y 64 px.
+
+# 4. Componentes oficiales
+
+## Navbar
+
+-   Logo a la izquierda.
+-   Menú horizontal.
+-   CTA "Iniciar sesión" (outline).
+-   CTA "Regístrate" (primario).
+
+## Hero
+
+Debe contener: - H1 con palabra destacada en verde. - Texto
+descriptivo. - Selector de campaña activa. - CTA primario "Ver
+necesidades". - CTA secundario "Solicitar ayuda". - Fondo blanco con
+degradados suaves.
+
+## Tarjetas KPI
+
+Cada tarjeta incluye: - Icono circular. - Valor grande. - Etiqueta. -
+Sin gráficos.
+
+## Card de Requerimiento
+
+Elementos obligatorios: - Badges (Campaña, Categoría, Prioridad). -
+Título. - Descripción. - Organización. - Ubicación. - Cantidad
+requerida. - Preparada para incorporar posteriormente barra de progreso
+y botón "Quiero ayudar".
+
+## Categorías
+
+Tarjetas cuadradas con: - Fondo pastel. - Icono. - Nombre. - Cantidad de
+necesidades.
+
+## ¿Cómo funciona?
+
+Proceso de cuatro pasos conectado mediante una línea horizontal: 1.
+Identificamos 2. Conectamos 3. Coordinamos 4. Generamos impacto
+
+## Bloque de confianza
+
+Tres tarjetas: - Organizaciones verificadas. - Transparencia total. -
+Impacto medible.
+
+## CTA final
+
+Fondo verde claro con dos acciones: - Quiero ayudar. - Soy una
+organización.
+
+## Footer
+
+Tres columnas: - Marca. - Explora. - Participa.
+
+# 5. Botones
+
+Primario: - Fondo azul. - Texto blanco.
+
+Secundario: - Fondo verde.
+
+Outline: - Fondo blanco. - Borde del color principal.
+
+# 6. Badges
+
+Estados: - Emergencia (rojo claro). - Programa (azul claro). - Categoría
+(verde). - Prioridad alta (rojo). - Prioridad media (amarillo). -
+Prioridad baja (gris).
+
+# 7. Radios
+
+-   Cards: 24 px.
+-   Botones: 14 px.
+-   Inputs: 14 px.
+-   Chips: 999 px.
+
+# 8. Sombras
+
+Solo tres niveles: - sm - md - lg
+
+Nunca usar sombras intensas.
+
+# 9. Responsive
+
+Desktop: \>=1024 px Tablet: 768--1023 px Mobile: \<768 px
+
+En móvil: - Navbar colapsable. - Cards en una columna. - KPIs
+apilados. - CTA en ancho completo.
+
+# 10. Accesibilidad
+
+-   Contraste WCAG AA.
+-   Navegación por teclado.
+-   Focus visible.
+-   Texto alternativo.
+-   No depender solo del color para comunicar estados.
+
+# 11. Librerías recomendadas
+
+-   Tailwind CSS
+-   shadcn/ui
+-   Lucide Icons
+-   React Hook Form
+-   Zod
+-   Recharts
+
+# 12. Reglas para IA (Lovable)
+
+-   No crear variantes visuales distintas para un mismo componente.
+-   Reutilizar siempre los componentes base.
+-   Mantener Poppins para encabezados e Inter para texto.
+-   Mantener el lenguaje visual limpio, con alto espacio en blanco.
+-   Usar únicamente los tokens definidos.
+-   Conservar la estructura del Landing: Hero → KPIs → Necesidades →
+    Categorías → Cómo funciona → Confianza → CTA → Footer.

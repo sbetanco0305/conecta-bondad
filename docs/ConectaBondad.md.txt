@@ -1,0 +1,2907 @@
+# ConectaBondad.org
+
+# Product Requirements Document (PRD)
+
+**Versión:** 1.0 (MVP)  
+**Estado:** En desarrollo
+
+---
+
+# 0. Visión del Producto
+
+ConectaBondad es una plataforma digital que conecta necesidades verificadas con personas y organizaciones dispuestas a ayudar, facilitando la coordinación, la transparencia y la trazabilidad de los aportes para maximizar el impacto social.
+
+Los tres principios que guiarán todas las decisiones del proyecto:
+
+Simplicidad: cualquier persona debe poder usar la plataforma sin capacitación.
+Transparencia: todo aporte debe ser trazable y verificable.
+Confianza: las organizaciones y la información publicada deben poder ser validadas.
+
+---
+
+# 1. Introducción
+
+## 1.1 Objetivo
+
+ConectaBondad.org es una plataforma web que conecta organizaciones que requieren ayuda con personas naturales, empresas e instituciones dispuestas a colaborar.
+
+La plataforma permitirá que organizaciones registradas publiquen requerimientos asociados a una emergencia o programa activo, mientras que colaboradores registrados podrán localizar necesidades específicas y comprometer aportes para contribuir a su solución.
+
+El objetivo del MVP es validar este modelo de colaboración mediante una plataforma sencilla, transparente y fácil de utilizar.
+
+---
+
+## 1.2 Alcance del MVP
+
+El MVP incluirá las siguientes funcionalidades:
+
+- Sitio web público.
+- Registro e inicio de sesión para Organizaciones y Colaboradores.
+- Administración de usuarios.
+- Administración de Organizaciones.
+- Administración de Colaboradores.
+- Administración de Emergencias y Programas.
+- Gestión de Requerimientos.
+- Gestión de Aportes.
+- Dashboard administrativo.
+- Búsqueda y filtrado de requerimientos.
+
+No forman parte del MVP:
+
+- Pasarela de pagos.
+- Donaciones monetarias en línea.
+- Aplicación móvil.
+- Multilenguaje.
+- Múltiples monedas.
+- Integraciones con WhatsApp, SMS o correo masivo.
+- Firma electrónica.
+- Geolocalización avanzada.
+- Validación automática de documentos.
+
+---
+
+## 1.3 Actores
+
+### Usuario Público
+
+Puede:
+
+- Consultar el sitio web.
+- Ver emergencias y programas activos.
+- Consultar necesidades publicadas.
+- Registrarse.
+- Iniciar sesión.
+
+---
+
+### Administrador
+
+Responsable de administrar la plataforma.
+
+Puede:
+
+- Administrar Usuarios.
+- Administrar Organizaciones.
+- Administrar Colaboradores.
+- Administrar Emergencias y Programas.
+- Administrar Requerimientos.
+- Consultar Dashboard y Reportes.
+
+---
+
+### Organización
+
+Representa una institución que solicita ayuda.
+
+Puede:
+
+- Administrar la información de su organización.
+- Crear requerimientos.
+- Editar requerimientos.
+- Eliminar requerimientos.
+- Consultar aportes recibidos.
+
+---
+
+### Colaborador
+
+Representa una persona natural o jurídica que desea colaborar.
+
+Puede:
+
+- Administrar su información.
+- Buscar requerimientos.
+- Filtrar necesidades.
+- Registrar aportes.
+- Consultar el estado de sus aportes.
+
+---
+
+## 1.4 Módulos del MVP
+
+El MVP estará compuesto por los siguientes módulos:
+
+1. Gestión de Acceso y Usuarios
+2. Gestión de Organizaciones
+3. Gestión de Colaboradores
+4. Gestión de Emergencias y Programas
+5. Gestión de Requerimientos
+6. Gestión de Aportes
+7. Dashboard y Reportes
+
+---
+
+# 2. Arquitectura Funcional
+
+## 2.1 Arquitectura General
+
+La plataforma estará organizada alrededor de tres tipos de usuarios autenticados (Administrador, Organización y Colaborador), además de un sitio público para consulta de información.
+
+Los usuarios autenticados accederán únicamente a las funcionalidades correspondientes a su rol.
+
+Los requerimientos publicados por las organizaciones estarán asociados a una Emergencia o Programa y podrán recibir aportes de múltiples colaboradores.
+
+El Dashboard consolidará la información de toda la plataforma para los administradores.
+
+## 2.2 Relación entre módulos
+
+```
+
+```
+                         Sitio Público
+                                │
+        ┌───────────────────────┼───────────────────────┐
+        │                       │                       │
+ Registro / Login       Emergencias               Requerimientos
+        │
+        ▼
+                 Gestión de Acceso y Usuarios
+        │
+ ┌──────┴───────────────┐
+ │                      │
+ ▼                      ▼
+Organizaciones      Colaboradores
+ │                      │
+ │                      │
+ └──────────────┬───────┘
+                ▼
+         Gestión de Aportes
+                │
+                ▼
+      Dashboard y Reportes
+```
+
+## 2.3 Flujo General
+
+1. El Administrador crea una Emergencia o Programa.
+2. Una Organización se registra en la plataforma.
+3. La Organización publica uno o más Requerimientos.
+4. Los Requerimientos se muestran públicamente.
+5. Un Colaborador se registra.
+6. El Colaborador selecciona un Requerimiento.
+7. El Colaborador registra un Aporte.
+8. La Organización confirma la recepción del Aporte.
+9. El Dashboard actualiza automáticamente los indicadores.
+
+---
+
+# 3. Modelo de Datos
+
+## 3.1 Consideraciones Generales
+
+El modelo de datos constituye la estructura oficial de la base de datos de ConectaBondad para el MVP.
+
+Todas las funcionalidades descritas en este PRD deberán utilizar exclusivamente las tablas y relaciones definidas en este capítulo.
+
+### Reglas generales
+
+- Todas las tablas principales utilizarán una llave primaria (`id`) de tipo UUID.
+- Todas las entidades principales tendrán un campo `codigo`, generado automáticamente por el sistema y visible para los usuarios.
+- Las relaciones entre tablas se realizarán mediante UUID.
+- Ninguna contraseña será almacenada en texto plano.
+- Los documentos y archivos se almacenarán mediante una URL.
+- Ningún registro será eliminado físicamente; cuando sea necesario se modificará su estado (`status`).
+- Todos los registros incluirán los campos `fecha_creacion` y `fecha_actualizacion`, administrados automáticamente por el sistema.
+
+---
+
+# 3.2 Tabla: Usuarios
+
+## Objetivo
+
+Almacenar las cuentas de acceso a la plataforma.
+
+La tabla Usuarios contiene únicamente la información necesaria para autenticación y autorización.
+
+La información propia de Organizaciones y Colaboradores se almacena en sus respectivas tablas.
+
+---
+
+## Estructura
+
+| Campo | Tipo | Obligatorio | Editable | Descripción |
+|--------|------|-------------|----------|-------------|
+| id | UUID | Sí | No | Llave primaria |
+| codigo | Texto (20) | Sí | No | Código visible. Ejemplo: USR-000001 |
+| nombre | Texto (150) | Sí | Sí | Nombre del usuario |
+| email_usuario | Texto (150) | Sí | Sí | Correo utilizado para iniciar sesión |
+| password_hash | Texto (255) | Sí | No | Contraseña cifrada |
+| tipo_usuario | Enum | Sí | No | Administrador, Organización o Colaborador |
+| organizacion_id | UUID | No | No | Organización asociada |
+| colaborador_id | UUID | No | No | Colaborador asociado |
+| status | Enum | Sí | Sí (Administrador) | Activo, Inactivo, Suspendido |
+| ultimo_login | Timestamp | No | No | Último acceso exitoso |
+| fecha_creacion | Timestamp | Sí | No | Fecha de creación |
+| fecha_actualizacion | Timestamp | Sí | No | Fecha de actualización |
+
+---
+
+## Relaciones
+
+- Un Usuario puede estar asociado a una Organización.
+- Un Usuario puede estar asociado a un Colaborador.
+- Un Usuario Administrador no estará asociado a ninguna Organización ni Colaborador.
+
+---
+
+## Reglas de Negocio
+
+- El correo electrónico debe ser único.
+- La contraseña nunca se almacenará en texto plano.
+- El sistema almacenará únicamente el hash de la contraseña.
+- Solo podrá existir un Usuario asociado a una Organización durante el MVP.
+- Solo podrá existir un Usuario asociado a un Colaborador durante el MVP.
+- Un Usuario no podrá estar asociado simultáneamente a una Organización y a un Colaborador.
+- Los usuarios no se eliminan físicamente; únicamente cambian de estado.
+
+---
+
+# 3.3 Tabla: Organizaciones
+
+## Objetivo
+
+Almacenar las organizaciones que requieren ayuda y publican requerimientos dentro de la plataforma.
+
+---
+
+## Estructura
+
+| Campo | Tipo | Obligatorio | Editable | Descripción |
+|--------|------|-------------|----------|-------------|
+| id | UUID | Sí | No | Llave primaria |
+| codigo | Texto (20) | Sí | No | Código visible. Ejemplo: ORG-000001 |
+| nombre_legal | Texto (200) | Sí | Sí | Nombre legal de la organización |
+| nombre_comercial | Texto (200) | No | Sí | Marca o nombre conocido |
+| identificador_legal | Texto (100) | Sí | Sí | RUC, NIT, RIF o equivalente |
+| tipo_organizacion_id | UUID | Sí | Sí | Tipo de organización |
+| pais_id | UUID | Sí | Sí | País |
+| estado_provincia_id | UUID | Sí | Sí | Estado o provincia |
+| ciudad_id | UUID | Sí | Sí | Ciudad |
+| direccion | Texto | Sí | Sí | Dirección |
+| telefono | Texto (50) | Sí | Sí | Teléfono |
+| red_social | Texto (250) | No | Sí | URL de red social |
+| pagina_web | Texto (250) | No | Sí | Página web |
+| documento_registro_url | Texto | Sí | Sí | Documento legal |
+| nombre_contacto | Texto (150) | Sí | Sí | Contacto principal |
+| correo_contacto | Texto (150) | Sí | Sí | Correo del contacto principal |
+| status | Enum | Sí | Sí (Administrador) | Activo, Inactivo, Suspendido |
+| fecha_creacion | Timestamp | Sí | No | Fecha de creación |
+| fecha_actualizacion | Timestamp | Sí | No | Fecha de actualización |
+
+---
+
+## Relaciones
+
+- Una Organización posee un Usuario.
+- Una Organización puede publicar múltiples Requerimientos.
+
+---
+
+## Reglas de Negocio
+
+- El Identificador Legal debe ser único.
+- El correo del contacto debe coincidir con el correo del Usuario asociado.
+- Una Organización únicamente podrá modificar su propia información.
+- Una Organización únicamente podrá administrar sus propios Requerimientos.
+- Una Organización no podrá cambiar a estado Inactivo o Suspendido si posee Requerimientos Activos. El Administrador deberá resolver primero dichos requerimientos o cambiar su estado.
+- Las Organizaciones no se eliminan físicamente.
+
+---
+# 3.4 Tabla: Campañas
+
+## Objetivo
+
+Almacenar las campañas activas de la plataforma. Una campaña representa el contexto bajo el cual las organizaciones publican requerimientos.
+
+Existen dos tipos de campañas:
+
+- Emergencia
+- Programa
+
+Toda Campaña pertenece a un único País y puede agrupar múltiples Requerimientos publicados por diferentes Organizaciones.
+
+---
+
+## Estructura
+
+| Campo | Tipo | Obligatorio | Editable | Descripción |
+|--------|------|-------------|----------|-------------|
+| id | UUID | Sí | No | Llave primaria |
+| codigo | Texto (20) | Sí | No | Código visible. Ejemplo: CAM-000001 |
+| nombre | Texto (200) | Sí | Sí | Nombre de la campaña |
+| tipo_campaña | Enum | Sí | Sí | Emergencia o Programa |
+| pais_id | UUID | Sí | Sí | País asociado |
+| descripcion | Texto | Sí | Sí | Descripción de la campaña |
+| imagen_url | Texto | No | Sí | Imagen representativa |
+| fecha_inicio | Fecha | Sí | Sí | Fecha de inicio |
+| fecha_fin | Fecha | No | Sí | Fecha de finalización |
+| status | Enum | Sí | Sí | Activa, Inactiva o Suspendida |
+| fecha_creacion | Timestamp | Sí | No | Fecha de creación |
+| fecha_actualizacion | Timestamp | Sí | No | Fecha de actualización |
+
+---
+
+## Relaciones
+
+- Una Campaña pertenece a un País.
+- Una Campaña puede contener múltiples Requerimientos.
+- Una Organización puede participar en múltiples Campañas mediante sus Requerimientos.
+
+---
+
+## Reglas de Negocio
+
+- Toda Campaña debe pertenecer a un único País.
+- Una Campaña solo podrá eliminarse lógicamente (cambio de estado).
+- Una Campaña con Requerimientos Activos no podrá pasar a estado Inactiva o Suspendida sin autorización del Administrador.
+- Los Requerimientos únicamente podrán asociarse a Campañas Activas.
+
+---
+
+# 3.5 Tabla: Requerimientos
+
+## Objetivo
+
+Almacenar las necesidades publicadas por las Organizaciones dentro de una Campaña.
+
+Un Requerimiento representa una necesidad específica que puede recibir aportes de uno o varios Colaboradores hasta alcanzar su cobertura total.
+
+---
+
+## Estructura
+
+| Campo | Tipo | Obligatorio | Editable | Descripción |
+|--------|------|-------------|----------|-------------|
+| id | UUID | Sí | No | Llave primaria |
+| codigo | Texto (20) | Sí | No | Código visible. Ejemplo: REQ-000001 |
+| campaña_id | UUID | Sí | No | Campaña a la que pertenece |
+| organizacion_id | UUID | Sí | No | Organización propietaria |
+| nombre | Texto (200) | Sí | Sí | Nombre del requerimiento |
+| descripcion | Texto | Sí | Sí | Descripción detallada |
+| pais_id | UUID | Sí | No | Se hereda de la Campaña |
+| estado_provincia_id | UUID | Sí | Sí | Estado o provincia donde existe la necesidad |
+| ciudad_id | UUID | Sí | Sí | Ciudad |
+| direccion | Texto | Sí | Sí | Dirección exacta |
+| tipo_requerimiento_id | UUID | Sí | Sí | Tipo de requerimiento |
+| cantidad_requerida | Decimal | Sí | Sí | Cantidad requerida |
+| unidad_medida_id | UUID | Sí | Sí | Unidad de medida |
+| cantidad_comprometida | Decimal | Sí | No | Calculada automáticamente |
+| cantidad_entregada | Decimal | Sí | No | Calculada automáticamente |
+| prioridad_id | UUID | Sí | Sí | Prioridad |
+| fecha_requerida | Fecha | No | Sí | Fecha límite deseada |
+| status | Enum | Sí | No | Borrador, Activo, Parcialmente Cubierto, Completado, Suspendido o Cancelado |
+| fecha_creacion | Timestamp | Sí | No | Fecha de creación |
+| fecha_actualizacion | Timestamp | Sí | No | Fecha de actualización |
+
+---
+
+## Relaciones
+
+- Un Requerimiento pertenece a una Organización.
+- Un Requerimiento pertenece a una Campaña.
+- Un Requerimiento pertenece a un Tipo de Requerimiento.
+- Un Requerimiento pertenece a una Prioridad.
+- Un Requerimiento puede recibir múltiples Aportes.
+
+---
+
+## Reglas de Negocio
+
+- Solo una Organización autenticada podrá crear Requerimientos.
+- La Organización únicamente podrá crear Requerimientos para Campañas Activas.
+- El país del Requerimiento será el mismo de la Campaña y no podrá modificarse.
+- La cantidad comprometida será la suma de los Aportes comprometidos.
+- La cantidad entregada será la suma de los Aportes entregados.
+- Un Requerimiento cambiará automáticamente de estado:
+  - Activo → Parcialmente Cubierto cuando exista al menos un aporte.
+  - Parcialmente Cubierto → Completado cuando la cantidad entregada alcance o supere la cantidad requerida.
+- Un Requerimiento Completado no podrá recibir nuevos Aportes.
+- Los Requerimientos no se eliminan físicamente.
+
+---
+
+# 3.6 Tabla: Aportes
+
+## Objetivo
+
+Almacenar los compromisos de ayuda realizados por los Colaboradores para cubrir total o parcialmente un Requerimiento.
+
+Un Requerimiento puede recibir múltiples Aportes y un Colaborador puede realizar múltiples Aportes.
+
+Los Aportes constituyen la base para calcular automáticamente el avance de cada Requerimiento.
+
+---
+
+## Estructura
+
+| Campo | Tipo | Obligatorio | Editable | Descripción |
+|--------|------|-------------|----------|-------------|
+| id | UUID | Sí | No | Llave primaria |
+| codigo | Texto (20) | Sí | No | Código visible. Ejemplo: APO-000001 |
+| requerimiento_id | UUID | Sí | No | Requerimiento asociado |
+| colaborador_id | UUID | Sí | No | Colaborador que realiza el aporte |
+| cantidad_comprometida | Decimal | Sí | Sí | Cantidad comprometida |
+| cantidad_entregada | Decimal | Sí | Sí | Cantidad efectivamente entregada |
+| fecha_compromiso | Fecha | Sí | No | Fecha del compromiso |
+| fecha_entrega_estimada | Fecha | No | Sí | Fecha estimada de entrega |
+| fecha_entrega_real | Fecha | No | No | Fecha confirmada de entrega |
+| observaciones_colaborador | Texto | No | Sí | Comentarios del colaborador |
+| observaciones_organizacion | Texto | No | Sí | Comentarios de la organización |
+| status | Enum | Sí | No | Comprometido, En coordinación, Entregado Parcialmente, Entregado, Cancelado |
+| fecha_creacion | Timestamp | Sí | No | Fecha de creación |
+| fecha_actualizacion | Timestamp | Sí | No | Fecha de actualización |
+
+---
+
+## Relaciones
+
+- Un Aporte pertenece a un único Requerimiento.
+- Un Aporte pertenece a un único Colaborador.
+- Un Requerimiento puede recibir múltiples Aportes.
+- Un Colaborador puede realizar múltiples Aportes.
+
+---
+
+## Reglas de Negocio
+
+- Solo un Colaborador autenticado podrá registrar Aportes.
+- Solo podrán registrarse Aportes sobre Requerimientos Activos o Parcialmente Cubiertos.
+- La cantidad comprometida deberá ser mayor que cero.
+- La cantidad entregada nunca podrá ser mayor que la cantidad comprometida.
+- El estado del Aporte cambiará automáticamente de acuerdo con su avance:
+  - Comprometido
+  - En coordinación
+  - Entregado Parcialmente
+  - Entregado
+  - Cancelado
+- Al registrar o actualizar un Aporte, el sistema recalculará automáticamente:
+  - Cantidad comprometida del Requerimiento.
+  - Cantidad entregada del Requerimiento.
+  - Porcentaje de cobertura del Requerimiento.
+- Los Aportes no se eliminan físicamente.
+
+---
+
+# 3.7 Tablas Catálogo
+
+Las siguientes tablas almacenan información parametrizable utilizada por el resto del sistema.
+
+Estas tablas podrán ser administradas por el Administrador, excepto los catálogos geográficos (Países, Estados/Provincias y Ciudades), cuya carga inicial se realizará durante la instalación del sistema.
+
+---
+
+## Tipos_Organizacion
+
+Describe la clasificación de las organizaciones registradas.
+
+Ejemplos:
+
+- ONG
+- Centro de Salud
+- Institución Educativa
+- Refugio
+- Fundación
+- Organismo Público
+- Organización Religiosa
+- Otro
+
+Campos:
+
+- id
+- nombre
+- descripcion
+- status
+
+---
+
+## Tipos_Requerimiento
+
+Describe las categorías de ayuda que pueden solicitar las Organizaciones.
+
+Valores iniciales:
+
+- Agua
+- Alimentos
+- Medicinas
+- Equipos médicos
+- Ropa
+- Higiene
+- Material de construcción
+- Herramientas
+- Tecnología
+- Transporte
+- Combustible
+- Voluntariado
+- Servicios profesionales
+- Recursos financieros
+- Educación
+- Otros
+
+Campos:
+
+- id
+- nombre
+- descripcion
+- status
+
+---
+
+## Prioridades
+
+Permite clasificar la urgencia de un Requerimiento.
+
+Valores iniciales:
+
+- Baja
+- Media
+- Alta
+- Crítica
+
+Campos:
+
+- id
+- nombre
+- orden
+- color
+- status
+
+---
+
+## Unidades_Medida
+
+Define la unidad utilizada para expresar la cantidad requerida y la cantidad aportada.
+
+Ejemplos:
+
+- Unidad
+- Caja
+- Kit
+- Kilogramo
+- Litro
+- Metro
+- Hora
+- Persona
+- USD
+
+Campos:
+
+- id
+- nombre
+- abreviatura
+- categoria
+- status
+
+---
+
+## Paises
+
+Catálogo oficial de países soportados por la plataforma.
+
+Campos:
+
+- id
+- nombre
+- codigo_iso2
+- codigo_iso3
+- status
+
+---
+
+## Estados_Provincias
+
+Catálogo geográfico asociado a un País.
+
+Campos:
+
+- id
+- pais_id
+- nombre
+- status
+
+---
+
+## Ciudades
+
+Catálogo geográfico asociado a un Estado o Provincia.
+
+Campos:
+
+- id
+- estado_provincia_id
+- nombre
+- status
+
+---
+
+# 4. Módulos Funcionales
+
+---
+
+# 4.1 Gestión de Acceso y Usuarios
+
+## Objetivo
+
+Administrar el acceso a la plataforma mediante autenticación de usuarios y controlar el registro de nuevas Organizaciones y Colaboradores.
+
+Este módulo constituye el punto de entrada para todos los usuarios autenticados.
+
+---
+
+## Actores
+
+- Usuario Público
+- Administrador
+- Organización
+- Colaborador
+
+---
+
+## Pantallas
+
+### 1. Inicio de Sesión
+
+Campos:
+
+- Tipo de usuario
+  - Administrador
+  - Organización
+  - Colaborador
+- Correo electrónico
+- Contraseña
+
+Enlaces:
+
+- ¿Olvidaste tu contraseña?
+
+Botones:
+
+- Ingresar
+- Registrarme
+
+---
+
+### Comportamiento
+
+#### Tipo = Administrador
+
+Campos visibles:
+
+- Correo electrónico
+- Contraseña
+
+Botones:
+
+- Ingresar
+
+El botón **Registrarme** permanecerá deshabilitado.
+
+---
+
+#### Tipo = Organización
+
+Campos visibles:
+
+- Correo electrónico
+- Contraseña
+
+Botones:
+
+- Ingresar
+- Registrarme
+
+---
+
+#### Tipo = Colaborador
+
+Campos visibles:
+
+- Correo electrónico
+- Contraseña
+
+Botones:
+
+- Ingresar
+- Registrarme
+
+---
+
+### 2. Recuperar Contraseña
+
+Formulario con el siguiente campo:
+
+- Correo electrónico
+
+Botones:
+
+- Enviar enlace
+- Cancelar
+
+---
+
+### 3. Restablecer Contraseña
+
+Accesible únicamente mediante el enlace temporal enviado por correo.
+
+Campos:
+
+- Nueva contraseña
+- Confirmar contraseña
+
+Botón:
+
+- Actualizar contraseña
+
+---
+
+## Funcionalidades
+
+### Iniciar sesión
+
+El sistema deberá:
+
+- Validar correo electrónico.
+- Validar contraseña.
+- Validar tipo de usuario.
+- Validar estado del usuario.
+
+Si la autenticación es correcta:
+
+- Administrador → Dashboard Administrativo.
+- Organización → Gestión de Requerimientos.
+- Colaborador → Gestión de Aportes.
+
+---
+
+### Registrarme
+
+Si el tipo seleccionado es Organización:
+
+Abrir módulo:
+
+**Gestión de Organizaciones**
+
+Si el tipo seleccionado es Colaborador:
+
+Abrir módulo:
+
+**Gestión de Colaboradores**
+
+Los Administradores no podrán registrarse desde la interfaz.
+
+---
+
+### Recuperar contraseña
+
+El sistema permitirá recuperar la contraseña mediante correo electrónico.
+
+Flujo:
+
+1. El usuario selecciona **¿Olvidaste tu contraseña?**
+2. Ingresa su correo electrónico.
+3. El sistema valida que exista una cuenta activa.
+4. El sistema genera un enlace temporal de recuperación.
+5. Envía el enlace al correo registrado.
+6. El usuario accede al enlace.
+7. Define una nueva contraseña.
+8. El sistema actualiza el `password_hash`.
+9. Se muestra un mensaje confirmando el cambio exitoso.
+10. El usuario podrá iniciar sesión con la nueva contraseña.
+
+---
+
+### Cerrar sesión
+
+Finaliza la sesión y retorna al Portal Público.
+
+---
+
+## Navegación
+
+Portal Público
+
+↓
+
+Iniciar sesión
+
+↓
+
+Seleccionar tipo de usuario
+
+↓
+
+Autenticación
+
+↓
+
+Redirección según rol
+
+---
+
+Portal Público
+
+↓
+
+¿Olvidaste tu contraseña?
+
+↓
+
+Ingresar correo electrónico
+
+↓
+
+Enviar enlace
+
+↓
+
+Correo electrónico
+
+↓
+
+Restablecer contraseña
+
+↓
+
+Iniciar sesión
+
+---
+
+## Tablas involucradas
+
+- usuarios
+
+---
+
+## Validaciones
+
+- El correo electrónico debe existir.
+- La contraseña debe coincidir.
+- El tipo de usuario seleccionado debe coincidir con el registrado.
+- El usuario debe encontrarse en estado **Activo**.
+- El enlace de recuperación deberá ser temporal y de un solo uso.
+- La nueva contraseña deberá cumplir la política de seguridad definida por la plataforma.
+- La confirmación de contraseña deberá coincidir.
+
+Si ocurre un error de autenticación se mostrará el mensaje:
+
+> Usuario o contraseña incorrectos.
+
+No indicar cuál de los dos campos produjo el error.
+
+Para recuperación de contraseña, si el correo no existe o pertenece a un usuario inactivo, mostrar un mensaje genérico como:
+
+> Si existe una cuenta asociada a este correo, recibirás un enlace para restablecer tu contraseña.
+
+Esto evita revelar si un correo electrónico está registrado en la plataforma.
+
+---
+
+## Reglas de Negocio
+
+- Solo existirá un Usuario Administrador inicial creado durante la instalación del sistema.
+- La contraseña deberá almacenarse únicamente como `password_hash`.
+- El sistema registrará la fecha del último inicio de sesión exitoso.
+- Después del cierre de sesión no podrá accederse nuevamente a páginas protegidas mediante el botón "Atrás" del navegador.
+- El enlace de recuperación tendrá una vigencia configurable (recomendado: 60 minutos).
+- Cada enlace de recuperación podrá utilizarse una única vez.
+- Al actualizar la contraseña se invalidarán automáticamente todos los enlaces de recuperación previamente emitidos.
+
+---
+
+## Flujo de Trabajo
+
+### Inicio de sesión
+
+Usuario
+
+↓
+
+Selecciona tipo de usuario
+
+↓
+
+Ingresa correo electrónico
+
+↓
+
+Ingresa contraseña
+
+↓
+
+Sistema valida credenciales
+
+↓
+
+¿Credenciales válidas?
+
+No
+
+↓
+
+Mostrar mensaje de error
+
+Sí
+
+↓
+
+Redireccionar según rol
+
+---
+
+### Recuperación de contraseña
+
+Usuario
+
+↓
+
+Selecciona **¿Olvidaste tu contraseña?**
+
+↓
+
+Ingresa correo electrónico
+
+↓
+
+Sistema valida cuenta activa
+
+↓
+
+Genera enlace temporal
+
+↓
+
+Envía correo electrónico
+
+↓
+
+Usuario accede al enlace
+
+↓
+
+Define nueva contraseña
+
+↓
+
+Sistema actualiza `password_hash`
+
+↓
+
+Mostrar confirmación
+
+↓
+
+Iniciar sesión
+
+---
+
+## Prompt de Implementación para Lovable
+
+### Contexto
+
+Este módulo implementa la autenticación y administración del acceso a ConectaBondad.
+
+Depende de:
+
+- usuarios
+
+Interactúa con:
+
+- organizaciones
+- colaboradores
+
+### Requerimientos
+
+Implementa una pantalla de autenticación con selección de tipo de usuario:
+
+- Administrador
+- Organización
+- Colaborador
+
+Validar:
+
+- Correo electrónico.
+- Contraseña.
+- Tipo de usuario.
+- Estado Activo.
+
+Si la autenticación es exitosa:
+
+- Administrador → Dashboard Administrativo.
+- Organización → Gestión de Requerimientos.
+- Colaborador → Gestión de Aportes.
+
+Si falla:
+
+Mostrar únicamente:
+
+> Usuario o contraseña incorrectos.
+
+No revelar cuál campo es incorrecto.
+
+Implementar el enlace:
+
+**¿Olvidaste tu contraseña?**
+
+Flujo requerido:
+
+- Solicitar correo electrónico.
+- Validar que exista una cuenta activa.
+- Generar un enlace temporal de un solo uso.
+- Enviar el enlace por correo electrónico.
+- Permitir definir una nueva contraseña.
+- Actualizar el campo `password_hash`.
+- Invalidar enlaces anteriores.
+- Mostrar confirmación al finalizar.
+
+El botón **Registrarme** deberá abrir:
+
+- Gestión de Organizaciones cuando el tipo sea Organización.
+- Gestión de Colaboradores cuando el tipo sea Colaborador.
+
+El botón permanecerá deshabilitado para Administradores.
+
+La contraseña nunca deberá almacenarse en texto plano.
+
+Registrar la fecha del último inicio de sesión.
+
+---
+
+# 4.2 Gestión de Campañas
+
+## Objetivo
+
+Permitir a los Administradores crear y administrar las Campañas de ConectaBondad.
+
+Una Campaña representa el contexto bajo el cual las Organizaciones publican Requerimientos. Una Campaña puede ser de tipo **Emergencia** o **Programa** y pertenece a un único País.
+
+Las Campañas serán visibles desde el sitio público y servirán como punto de entrada para consultar las necesidades asociadas.
+
+---
+
+## Actores
+
+- Administrador
+- Usuario Público
+- Organización
+- Colaborador
+
+---
+
+## Pantallas
+
+### 1. Listado de Campañas (Administrador)
+
+Muestra todas las Campañas registradas.
+
+Funciones disponibles:
+
+- Buscar
+- Filtrar
+- Ordenar
+- Crear nueva Campaña
+- Ver detalle
+- Editar
+- Cambiar estado
+
+Filtros:
+
+- Código
+- Nombre
+- Tipo de Campaña
+- País
+- Estado
+
+---
+
+### 2. Crear Campaña
+
+Formulario para registrar una nueva Campaña.
+
+Campos:
+
+- Nombre de la Campaña *
+- Tipo de Campaña *
+  - Emergencia
+  - Programa
+- País *
+- Fecha de inicio *
+- Fecha de finalización
+- Imagen principal
+- Descripción *
+- Estado *
+
+Botones:
+
+- Guardar
+- Cancelar
+
+---
+
+### 3. Editar Campaña
+
+Permite modificar la información de una Campaña.
+
+No podrán modificarse:
+
+- Código
+- Fecha de creación
+
+---
+
+### 4. Detalle Administrativo
+
+Muestra:
+
+Información general
+
+Indicadores
+
+- Número de Organizaciones participantes
+- Número de Requerimientos
+- Número de Requerimientos Activos
+- Número de Requerimientos Completados
+- Número de Aportes
+- Cantidad comprometida
+- Cantidad entregada
+
+Acciones:
+
+- Editar
+- Cambiar Estado
+
+---
+
+### 5. Página Pública de Campaña
+
+Disponible para cualquier visitante.
+
+Debe mostrar:
+
+Banner de la Campaña
+
+Nombre
+
+Tipo
+
+País
+
+Descripción
+
+Fecha de inicio
+
+Indicadores:
+
+- Organizaciones participantes
+- Requerimientos activos
+- Requerimientos completados
+- Porcentaje promedio de cobertura
+
+Listado de Requerimientos activos.
+
+Botón:
+
+**Ver necesidades**
+
+---
+
+## Funcionalidades
+
+### Crear Campaña
+
+El Administrador podrá registrar nuevas Campañas.
+
+Toda Campaña deberá pertenecer a un único País.
+
+---
+
+### Consultar Campaña
+
+Disponible para todos los usuarios.
+
+Las Campañas Suspendidas o Inactivas no aparecerán en el sitio público.
+
+---
+
+### Editar Campaña
+
+Solo el Administrador podrá modificar Campañas.
+
+---
+
+### Cambiar Estado
+
+Estados permitidos:
+
+- Activa
+- Inactiva
+- Suspendida
+
+---
+
+## Navegación
+
+Administrador
+
+↓
+
+Gestión de Campañas
+
+↓
+
+Listado
+
+↓
+
+Crear / Editar
+
+↓
+
+Guardar
+
+---
+
+Usuario Público
+
+↓
+
+Página Principal
+
+↓
+
+Emergencias y Programas
+
+↓
+
+Seleccionar Campaña
+
+↓
+
+Ver Necesidades
+
+---
+
+## Tablas involucradas
+
+- campañas
+- paises
+- requerimientos
+- organizaciones
+- aportes
+
+---
+
+## Validaciones
+
+- El nombre es obligatorio.
+- El País es obligatorio.
+- El Tipo de Campaña es obligatorio.
+- La Fecha de Inicio es obligatoria.
+- La Fecha Final no podrá ser menor que la Fecha de Inicio.
+- Solo se permitirá cargar imágenes JPG, PNG o WEBP.
+- Tamaño máximo de imagen: 5 MB.
+
+---
+
+## Reglas de Negocio
+
+- Solo los Administradores podrán crear Campañas.
+- Toda Campaña pertenecerá a un único País.
+- Una Campaña podrá contener múltiples Requerimientos.
+- Una Organización podrá participar en múltiples Campañas mediante sus Requerimientos.
+- Solo las Campañas Activas aparecerán en el sitio público.
+- Una Campaña con Requerimientos Activos no podrá cambiar a estado Inactiva o Suspendida hasta que el Administrador confirme la acción.
+- Las Campañas no se eliminarán físicamente.
+
+---
+
+## Flujo de Trabajo
+
+Administrador
+
+↓
+
+Crear Campaña
+
+↓
+
+Completar información
+
+↓
+
+Guardar
+
+↓
+
+Campaña Activa
+
+↓
+
+Organizaciones publican Requerimientos
+
+↓
+
+Los Requerimientos aparecen automáticamente en la página pública de la Campaña.
+
+---
+
+## Prompt de Implementación para Lovable
+
+Construye el módulo **Gestión de Campañas** para ConectaBondad.
+
+Implementa un módulo administrativo que permita crear, consultar, editar y cambiar el estado de Campañas.
+
+Cada Campaña deberá contener:
+
+- Nombre
+- Tipo (Emergencia o Programa)
+- País
+- Fechas
+- Imagen principal
+- Descripción
+- Estado
+
+Implementa además una página pública para cada Campaña mostrando:
+
+- Banner
+- Información general
+- Indicadores
+- Listado de Requerimientos Activos
+
+Solo las Campañas Activas deberán mostrarse públicamente.
+
+No permitir eliminación física de Campañas.
+
+Los indicadores deberán calcularse automáticamente a partir de los Requerimientos y Aportes asociados.
+
+---
+
+# 4.3 Gestión de Requerimientos
+
+## Objetivo
+
+Permitir a las Organizaciones crear, administrar y publicar Requerimientos asociados a una Campaña.
+
+Los Requerimientos representan necesidades específicas que podrán ser atendidas parcial o totalmente mediante Aportes realizados por uno o varios Colaboradores.
+
+Este módulo constituye el núcleo funcional de ConectaBondad.
+
+---
+
+## Actores
+
+- Organización
+- Administrador
+- Colaborador
+- Usuario Público
+
+---
+
+## Pantallas
+
+### 1. Listado de Requerimientos
+
+Disponible para la Organización autenticada.
+
+Funciones:
+
+- Buscar
+- Filtrar
+- Ordenar
+- Nuevo Requerimiento
+- Ver
+- Editar
+- Cambiar Estado
+
+Filtros:
+
+- Código
+- Campaña
+- Tipo de Requerimiento
+- Prioridad
+- Estado
+- Ciudad
+
+---
+
+### 2. Crear Requerimiento
+
+Campos
+
+- Campaña *
+- Nombre del Requerimiento *
+- Descripción corta *
+- Descripción detallada *
+- Estado / Provincia *
+- Ciudad *
+- Dirección *
+- Tipo de Requerimiento *
+- Cantidad requerida *
+- Unidad de Medida *
+- Prioridad *
+- Fecha requerida
+- Instrucciones de entrega
+- Observaciones internas
+- Archivos adjuntos (máximo 3)
+
+Botones
+
+- Guardar Borrador
+- Publicar
+- Cancelar
+
+---
+
+### 3. Editar Requerimiento
+
+La Organización podrá modificar únicamente sus propios Requerimientos.
+
+No podrán modificarse:
+
+- Código
+- Organización
+- País
+- Fecha de creación
+- Fecha de publicación
+
+Cuando el Requerimiento posea Aportes registrados tampoco podrán modificarse:
+
+- Campaña
+- Tipo de Requerimiento
+- Cantidad requerida
+- Unidad de Medida
+- Estado / Provincia
+- Ciudad
+- Dirección
+
+Sí podrán modificarse:
+
+- Descripción corta
+- Descripción detallada
+- Fecha requerida
+- Instrucciones de entrega
+- Observaciones internas
+
+---
+
+### 4. Detalle del Requerimiento
+
+Mostrar:
+
+Información general
+
+Campaña
+
+Organización
+
+Ubicación
+
+Tipo
+
+Prioridad
+
+Cantidad requerida
+
+Cantidad comprometida
+
+Cantidad entregada
+
+Cantidad disponible
+
+Porcentaje de cobertura
+
+Estado
+
+Fecha requerida
+
+Fecha de publicación
+
+Instrucciones de entrega
+
+Archivos adjuntos
+
+Historial de Aportes
+
+---
+
+### 5. Portal Público
+
+Los Requerimientos se mostrarán mediante tarjetas.
+
+Cada tarjeta incluirá:
+
+- Nombre
+- Descripción corta
+- Organización
+- Campaña
+- Ciudad
+- Estado / Provincia
+- Prioridad
+- Cantidad requerida
+- Cantidad comprometida
+- Cantidad entregada
+- Cantidad disponible
+- Barra de progreso
+- Fecha requerida
+- Botón **Quiero ayudar**
+
+No mostrar:
+
+- Observaciones internas
+
+---
+
+## Funcionalidades
+
+### Crear Requerimiento
+
+Solo una Organización autenticada podrá crear Requerimientos.
+
+El Requerimiento se registrará inicialmente como:
+
+**Borrador**
+
+Mientras permanezca en Borrador:
+
+- No será visible públicamente.
+- No podrá recibir Aportes.
+
+Al seleccionar **Publicar**:
+
+- Estado = Activo
+- Registrar fecha_publicacion
+- Mostrar en Portal Público
+- Mostrar en la Campaña correspondiente
+
+---
+
+### Consultar Requerimiento
+
+Disponible para:
+
+- Organización propietaria
+- Administrador
+- Colaboradores
+- Usuarios Públicos (solo Activos)
+
+---
+
+### Editar Requerimiento
+
+La Organización únicamente podrá modificar sus propios Requerimientos.
+
+El Administrador podrá modificar cualquier Requerimiento.
+
+---
+
+### Cambiar Estado
+
+Estados permitidos:
+
+- Borrador
+- Activo
+- Parcialmente Cubierto
+- Completado
+- Suspendido
+- Cancelado
+
+---
+
+## Navegación
+
+Organización
+
+↓
+
+Gestión de Requerimientos
+
+↓
+
+Nuevo Requerimiento
+
+↓
+
+Guardar Borrador
+
+↓
+
+Publicar
+
+↓
+
+Portal Público
+
+↓
+
+Disponible para recibir Aportes
+
+---
+
+## Tablas involucradas
+
+- requerimientos
+- campañas
+- organizaciones
+- tipos_requerimiento
+- prioridades
+- unidades_medida
+- estados_provincias
+- ciudades
+- aportes
+
+---
+
+## Validaciones
+
+- La Campaña debe encontrarse Activa.
+- La Fecha requerida no podrá ser anterior a la fecha actual.
+- La Cantidad requerida deberá ser mayor que cero.
+- La Unidad de Medida será obligatoria.
+- La Prioridad será obligatoria.
+- Todos los campos obligatorios deberán completarse.
+
+Archivos adjuntos:
+
+- Máximo tres (3) archivos.
+- Formatos permitidos:
+  - JPG
+  - PNG
+  - PDF
+- Tamaño máximo:
+  - 2 MB por archivo.
+
+---
+
+## Reglas de Negocio
+
+- Una Organización únicamente podrá crear Requerimientos para sí misma.
+- El País será heredado automáticamente de la Campaña.
+- Un Requerimiento podrá recibir múltiples Aportes.
+- La Cantidad comprometida será calculada automáticamente.
+- La Cantidad entregada será calculada automáticamente.
+- La Cantidad disponible será calculada automáticamente:
+
+Cantidad Disponible =
+Cantidad Requerida − Cantidad Comprometida
+
+- El porcentaje de cobertura será calculado automáticamente.
+- Un Requerimiento Completado no podrá recibir nuevos Aportes.
+- Los Requerimientos no se eliminarán físicamente.
+
+---
+
+## Archivos Adjuntos
+
+Cada Requerimiento podrá contener hasta tres (3) archivos.
+
+Tipos permitidos:
+
+- JPG
+- PNG
+- PDF
+
+Tamaño máximo:
+
+- 2 MB por archivo.
+
+Los archivos se almacenarán en el servicio de almacenamiento de la plataforma.
+
+La base de datos únicamente almacenará la URL de cada archivo.
+
+Mientras el Requerimiento no tenga Aportes registrados, la Organización podrá:
+
+- Agregar archivos.
+- Reemplazar archivos.
+- Eliminar archivos.
+
+---
+
+## Flujo de Trabajo
+
+Organización
+
+↓
+
+Crear Requerimiento
+
+↓
+
+Guardar como Borrador
+
+↓
+
+Editar
+
+↓
+
+Publicar
+
+↓
+
+Estado = Activo
+
+↓
+
+Registrar fecha_publicacion
+
+↓
+
+Visible en Portal Público
+
+↓
+
+Disponible para recibir Aportes
+
+---
+
+## Prompt de Implementación para Lovable
+
+### Contexto
+
+Este módulo implementa la gestión completa de Requerimientos de ConectaBondad.
+
+Depende de:
+
+- campañas
+- organizaciones
+
+Interactúa con:
+
+- aportes
+- portal público
+
+### Requerimientos
+
+Implementa un módulo donde las Organizaciones autenticadas puedan crear y administrar Requerimientos asociados a Campañas Activas.
+
+Cada Requerimiento deberá incluir:
+
+- Campaña
+- Nombre
+- Descripción corta
+- Descripción detallada
+- Ubicación
+- Tipo
+- Cantidad requerida
+- Unidad de Medida
+- Prioridad
+- Fecha requerida
+- Instrucciones de entrega
+- Observaciones internas
+- Hasta tres (3) archivos adjuntos.
+
+Implementar:
+
+- Estado inicial = Borrador.
+- Publicación manual.
+- Fecha de publicación.
+- Tarjetas para el Portal Público.
+- Barra de progreso.
+- Cantidad comprometida automática.
+- Cantidad entregada automática.
+- Cantidad disponible automática.
+- Porcentaje de cobertura automático.
+
+Archivos:
+
+- Máximo tres (3).
+- JPG, PNG y PDF.
+- Máximo 2 MB por archivo.
+- Almacenar únicamente las URLs en la base de datos.
+
+No permitir eliminación física de Requerimientos.
+
+---
+
+# 4.4 Gestión de Aportes
+
+## Objetivo
+
+Permitir que los Colaboradores registren Aportes para cubrir total o parcialmente un Requerimiento y que las Organizaciones administren el proceso de aceptación, coordinación y confirmación de entrega.
+
+Un Requerimiento podrá recibir múltiples Aportes de diferentes Colaboradores.
+
+---
+
+## Actores
+
+- Colaborador
+- Organización
+- Administrador
+
+---
+
+## Pantallas
+
+### 1. Mis Aportes (Colaborador)
+
+Listado de todos los Aportes realizados por el Colaborador autenticado.
+
+Funciones:
+
+- Buscar
+- Filtrar
+- Ver detalle
+
+Filtros:
+
+- Código
+- Campaña
+- Requerimiento
+- Estado
+- Fecha
+
+---
+
+### 2. Registrar Aporte
+
+Accesible desde el botón **"Quiero ayudar"** del Portal Público.
+
+Antes del formulario se mostrará un resumen del Requerimiento.
+
+#### Resumen del Requerimiento
+
+- Código
+- Nombre
+- Organización
+- Campaña
+- Ubicación
+- Cantidad requerida
+- Cantidad comprometida
+- Cantidad entregada
+- Cantidad disponible
+- Unidad de medida
+- Prioridad
+- Barra de progreso
+- Fecha requerida
+
+#### Formulario
+
+Campos:
+
+- Cantidad a aportar *
+- Fecha estimada de entrega
+- Observaciones del colaborador
+
+Botones:
+
+- Confirmar aporte
+- Cancelar
+
+---
+
+### 3. Aportes Recibidos (Organización)
+
+Listado de Aportes correspondientes a los Requerimientos de la Organización.
+
+Funciones:
+
+- Buscar
+- Filtrar
+- Ver detalle
+- Aceptar
+- Rechazar
+- Cambiar estado
+- Confirmar entrega
+
+Filtros:
+
+- Código
+- Requerimiento
+- Colaborador
+- Estado
+
+---
+
+### 4. Detalle del Aporte
+
+Mostrar:
+
+Información del Colaborador
+
+Información del Requerimiento
+
+Cantidad comprometida
+
+Cantidad entregada
+
+Estado
+
+Fechas
+
+Observaciones
+
+Historial de cambios de estado
+
+---
+
+## Funcionalidades
+
+### Registrar Aporte
+
+Solo un Colaborador autenticado podrá registrar un Aporte.
+
+Al confirmar:
+
+1. El sistema recalculará la Cantidad Disponible del Requerimiento.
+2. Validará nuevamente que exista disponibilidad.
+3. Si la validación es correcta:
+   - Crear el Aporte.
+   - Estado = Pendiente de aceptación.
+   - Notificar a la Organización.
+4. Si la disponibilidad cambió:
+   - Mostrar la nueva Cantidad Disponible.
+   - Solicitar al Colaborador ajustar su aporte antes de continuar.
+
+---
+
+### Aceptar Aporte
+
+La Organización podrá:
+
+- Aceptar
+- Rechazar
+
+Si acepta:
+
+Estado:
+
+**Comprometido**
+
+Si rechaza:
+
+Estado:
+
+**Cancelado**
+
+Registrar motivo del rechazo.
+
+Notificar al Colaborador.
+
+---
+
+### Coordinar Entrega
+
+Después de aceptar el Aporte:
+
+Estado:
+
+**En coordinación**
+
+La Organización y el Colaborador podrán coordinar la entrega fuera de la plataforma utilizando los datos de contacto registrados.
+
+---
+
+### Confirmar Entrega
+
+Solo la Organización podrá confirmar la recepción del Aporte.
+
+Registrar:
+
+- Cantidad entregada
+- Fecha de entrega
+- Observaciones
+
+Estados posibles:
+
+- Entregado parcialmente
+- Entregado
+
+---
+
+## Navegación
+
+Portal Público
+
+↓
+
+Detalle del Requerimiento
+
+↓
+
+Quiero ayudar
+
+↓
+
+Registrar Aporte
+
+↓
+
+Pendiente de aceptación
+
+↓
+
+Organización revisa
+
+↓
+
+Aceptar / Rechazar
+
+↓
+
+Comprometido
+
+↓
+
+En coordinación
+
+↓
+
+Entrega
+
+↓
+
+Confirmación de la Organización
+
+↓
+
+Actualizar Requerimiento
+
+---
+
+## Tablas involucradas
+
+- aportes
+- requerimientos
+- colaboradores
+- organizaciones
+
+---
+
+## Validaciones
+
+- Solo Colaboradores autenticados podrán registrar Aportes.
+- El Requerimiento deberá encontrarse Activo o Parcialmente Cubierto.
+- La Cantidad comprometida deberá ser mayor que cero.
+- La Cantidad comprometida no podrá superar la Cantidad Disponible.
+- La Cantidad entregada no podrá ser mayor que la Cantidad comprometida.
+
+### Validación de concurrencia
+
+Antes de crear el Aporte el sistema deberá:
+
+1. Recalcular la Cantidad Disponible.
+2. Validar nuevamente la disponibilidad.
+3. Si cambió, impedir el registro y mostrar la nueva disponibilidad.
+
+Mensaje sugerido:
+
+> La disponibilidad del requerimiento cambió mientras registrabas tu aporte. La cantidad disponible actual es de **XX** unidades. Ajusta tu aporte para continuar.
+
+---
+
+## Reglas de Negocio
+
+- Todo Aporte inicia con estado **Pendiente de aceptación**.
+- Solo la Organización podrá aceptar o rechazar un Aporte.
+- Solo la Organización podrá confirmar la entrega.
+- Al aceptar un Aporte se actualizará automáticamente la Cantidad Comprometida del Requerimiento.
+- Al confirmar una entrega se actualizará automáticamente la Cantidad Entregada del Requerimiento.
+- La Cantidad Disponible será calculada automáticamente:
+
+Cantidad Disponible =
+Cantidad Requerida − Cantidad Comprometida
+
+- El porcentaje de cobertura se recalculará automáticamente.
+- Si la Cantidad Entregada alcanza o supera la Cantidad Requerida, el Requerimiento cambiará automáticamente a **Completado**.
+- Los Aportes no se eliminarán físicamente.
+
+---
+
+## Flujo de Trabajo
+
+Colaborador
+
+↓
+
+Selecciona **Quiero ayudar**
+
+↓
+
+Visualiza la Cantidad Disponible
+
+↓
+
+Ingresa la cantidad a aportar
+
+↓
+
+Sistema recalcula disponibilidad
+
+↓
+
+¿Cantidad disponible suficiente?
+
+No
+
+↓
+
+Mostrar nueva disponibilidad
+
+↓
+
+Ajustar aporte
+
+↓
+
+Sí
+
+↓
+
+Crear Aporte
+
+↓
+
+Pendiente de aceptación
+
+↓
+
+Organización revisa
+
+↓
+
+¿Aceptar?
+
+├── No
+
+│   ↓
+
+│ Cancelado
+
+│   ↓
+
+│ Notificar Colaborador
+
+└── Sí
+
+↓
+
+Comprometido
+
+↓
+
+En coordinación
+
+↓
+
+Entrega
+
+↓
+
+Organización confirma recepción
+
+↓
+
+Entregado parcialmente / Entregado
+
+↓
+
+Actualizar automáticamente el Requerimiento
+
+---
+
+## Prompt de Implementación para Lovable
+
+### Contexto
+
+Este módulo implementa el ciclo completo de colaboración entre Colaboradores y Organizaciones.
+
+Depende de:
+
+- requerimientos
+- colaboradores
+
+Interactúa con:
+
+- organizaciones
+
+### Requerimientos
+
+Implementa el módulo **Gestión de Aportes** para ConectaBondad.
+
+Permite que un Colaborador autenticado registre un Aporte desde un Requerimiento publicado.
+
+Implementa el siguiente flujo:
+
+1. Mostrar resumen del Requerimiento.
+2. Mostrar Cantidad Disponible.
+3. Registrar Aporte.
+4. Recalcular disponibilidad antes de guardar.
+5. Validar concurrencia.
+6. Crear Aporte.
+7. Estado = Pendiente de aceptación.
+8. Organización acepta o rechaza.
+9. Coordinación.
+10. Confirmación de entrega.
+11. Actualización automática del Requerimiento.
+
+Implementar además:
+
+- Mis Aportes.
+- Aportes Recibidos.
+- Detalle del Aporte.
+- Historial de estados.
+- Filtros.
+
+No permitir eliminación física de registros.
+
+Toda actualización deberá recalcular automáticamente:
+
+- Cantidad comprometida.
+- Cantidad entregada.
+- Cantidad disponible.
+- Porcentaje de cobertura del Requerimiento.
+
+---
+
+# 4.5 Dashboard y Reportes
+
+## Objetivo
+
+Proporcionar al Administrador una visión consolidada del estado de la plataforma mediante indicadores, gráficos y listados que faciliten el seguimiento de las Campañas, Organizaciones, Requerimientos y Aportes.
+
+El Dashboard permitirá medir el impacto de ConectaBondad y apoyar la toma de decisiones.
+
+---
+
+## Actores
+
+- Administrador
+
+---
+
+## Pantallas
+
+### 1. Dashboard Principal
+
+Mostrar los indicadores generales de la plataforma.
+
+Tarjetas de indicadores:
+
+- Organizaciones registradas
+- Organizaciones verificadas
+- Colaboradores registrados
+- Campañas Activas
+- Requerimientos Activos
+- Requerimientos Parcialmente Cubiertos
+- Requerimientos Completados
+- Aportes Pendientes de aceptación
+- Aportes Comprometidos
+- Aportes En coordinación
+- Aportes Entregados
+
+---
+
+### 2. Indicadores por Campaña
+
+Seleccionando una Campaña se mostrarán:
+
+- Número de Organizaciones participantes
+- Número de Requerimientos
+- Requerimientos Activos
+- Requerimientos Completados
+- Total comprometido
+- Total entregado
+- Porcentaje promedio de cobertura
+
+---
+
+### 3. Indicadores por País
+
+Mostrar:
+
+- Campañas
+- Organizaciones
+- Requerimientos
+- Aportes
+
+agrupados por país.
+
+---
+
+### 4. Reportes
+
+Listado de reportes disponibles.
+
+Inicialmente:
+
+- Organizaciones
+- Colaboradores
+- Campañas
+- Requerimientos
+- Aportes
+
+Todos deberán permitir exportación a Excel.
+
+---
+
+## Funcionalidades
+
+### Dashboard General
+
+Actualizar automáticamente la información utilizando los datos registrados en la plataforma.
+
+No almacenar indicadores calculados.
+
+Todos los indicadores deberán calcularse en tiempo real.
+
+---
+
+### Reportes
+
+Cada reporte permitirá:
+
+- Buscar
+- Filtrar
+- Ordenar
+- Exportar
+
+---
+
+## Navegación
+
+Administrador
+
+↓
+
+Dashboard
+
+↓
+
+Indicadores
+
+↓
+
+Reportes
+
+↓
+
+Exportar
+
+---
+
+## Tablas involucradas
+
+- organizaciones
+- colaboradores
+- campañas
+- requerimientos
+- aportes
+
+---
+
+## Validaciones
+
+- Solo los Administradores podrán acceder al Dashboard.
+- La información deberá reflejar únicamente registros activos, salvo que un filtro indique lo contrario.
+- Los reportes deberán respetar los filtros seleccionados antes de exportar.
+
+---
+
+## Reglas de Negocio
+
+- Todos los indicadores deberán calcularse dinámicamente.
+- No se almacenarán indicadores precalculados.
+- La exportación a Excel incluirá únicamente los registros visibles según los filtros aplicados.
+- Los reportes deberán respetar los permisos del usuario autenticado.
+
+---
+
+## Flujo de Trabajo
+
+Administrador
+
+↓
+
+Dashboard
+
+↓
+
+Selecciona indicador
+
+↓
+
+Consulta detalle
+
+↓
+
+Filtra información
+
+↓
+
+Exporta reporte
+
+---
+
+## Prompt de Implementación para Lovable
+
+Construye el módulo **Dashboard y Reportes** para ConectaBondad.
+
+Implementa un Dashboard administrativo con indicadores calculados dinámicamente a partir de las tablas:
+
+- organizaciones
+- colaboradores
+- campañas
+- requerimientos
+- aportes
+
+Implementa además reportes exportables a Excel para cada entidad principal.
+
+Permite filtrar y ordenar la información antes de exportarla.
+
+No almacenar indicadores en la base de datos; todos deberán calcularse en tiempo real.
+
+---
+
+# 5. Flujos de Trabajo
+
+Este capítulo describe los principales procesos de negocio de ConectaBondad desde la perspectiva del usuario.
+
+Cada flujo representa un proceso completo que involucra uno o varios módulos del sistema.
+
+---
+
+# 5.1 Registro de Organización
+
+## Objetivo
+
+Permitir que una Organización se registre en ConectaBondad y obtenga acceso para publicar Requerimientos.
+
+## Flujo
+
+Usuario Público
+
+↓
+
+Selecciona **Iniciar sesión**
+
+↓
+
+Selecciona **Registrarme**
+
+↓
+
+Selecciona **Organización**
+
+↓
+
+Completa formulario de registro
+
+↓
+
+Adjunta documentación
+
+↓
+
+Sistema valida información
+
+- Correo único
+- Identificador legal único
+
+↓
+
+Crear Organización
+
+↓
+
+Crear Usuario asociado
+
+↓
+
+Estado = Activo
+
+↓
+
+Estado de verificación = Pendiente
+
+↓
+
+Enviar correo de bienvenida
+
+↓
+
+Redireccionar al Portal de la Organización
+
+---
+
+# 5.2 Registro de Colaborador
+
+## Objetivo
+
+Permitir que una Persona Natural o Jurídica se registre como Colaborador.
+
+## Flujo
+
+Usuario Público
+
+↓
+
+Selecciona **Registrarme**
+
+↓
+
+Selecciona **Colaborador**
+
+↓
+
+Selecciona:
+
+- Persona Natural
+- Persona Jurídica
+
+↓
+
+Completa formulario
+
+↓
+
+Validaciones
+
+↓
+
+Crear Colaborador
+
+↓
+
+Crear Usuario
+
+↓
+
+Enviar correo de bienvenida
+
+↓
+
+Redireccionar al Portal del Colaborador
+
+---
+
+# 5.3 Inicio de Sesión
+
+## Objetivo
+
+Permitir el acceso seguro a la plataforma.
+
+## Flujo
+
+Usuario
+
+↓
+
+Selecciona tipo de usuario
+
+↓
+
+Correo electrónico
+
+↓
+
+Contraseña
+
+↓
+
+Sistema valida
+
+↓
+
+¿Correcto?
+
+No
+
+↓
+
+Mostrar error
+
+Sí
+
+↓
+
+Redireccionar según rol
+
+Administrador
+
+↓
+
+Dashboard
+
+Organización
+
+↓
+
+Mis Requerimientos
+
+Colaborador
+
+↓
+
+Mis Aportes
+
+---
+
+# 5.4 Creación de Campaña
+
+## Objetivo
+
+Permitir que un Administrador publique una nueva Campaña.
+
+## Flujo
+
+Administrador
+
+↓
+
+Nueva Campaña
+
+↓
+
+Completa información
+
+↓
+
+Guardar
+
+↓
+
+Campaña Activa
+
+↓
+
+Disponible para publicar Requerimientos
+
+---
+
+# 5.5 Publicación de Requerimiento
+
+## Objetivo
+
+Permitir que una Organización publique una necesidad.
+
+## Flujo
+
+Organización
+
+↓
+
+Nuevo Requerimiento
+
+↓
+
+Selecciona Campaña
+
+↓
+
+Completa información
+
+↓
+
+Adjunta archivos
+
+↓
+
+Guardar
+
+↓
+
+Estado = Borrador
+
+↓
+
+Publicar
+
+↓
+
+Estado = Activo
+
+↓
+
+Visible en Portal Público
+
+↓
+
+Disponible para recibir Aportes
+
+---
+
+# 5.6 Registro de Aporte
+
+## Objetivo
+
+Permitir que un Colaborador apoye un Requerimiento.
+
+## Flujo
+
+Portal Público
+
+↓
+
+Detalle del Requerimiento
+
+↓
+
+Quiero ayudar
+
+↓
+
+Registrar Aporte
+
+↓
+
+Sistema recalcula cantidad disponible
+
+↓
+
+¿Cantidad disponible suficiente?
+
+No
+
+↓
+
+Mostrar cantidad disponible actual
+
+↓
+
+Fin
+
+Sí
+
+↓
+
+Crear Aporte
+
+↓
+
+Pendiente de aceptación
+
+↓
+
+Notificar Organización
+
+---
+
+# 5.7 Gestión del Aporte
+
+## Objetivo
+
+Permitir a la Organización administrar los Aportes recibidos.
+
+## Flujo
+
+Organización
+
+↓
+
+Revisa Aporte
+
+↓
+
+Aceptar o Rechazar
+
+↓
+
+¿Aceptar?
+
+No
+
+↓
+
+Cancelar
+
+↓
+
+Registrar motivo
+
+↓
+
+Notificar Colaborador
+
+Fin
+
+Sí
+
+↓
+
+Comprometido
+
+↓
+
+En coordinación
+
+↓
+
+Recepción del aporte
+
+↓
+
+Confirmar entrega
+
+↓
+
+Actualizar Requerimiento
+
+↓
+
+¿Cantidad entregada ≥ Cantidad requerida?
+
+No
+
+↓
+
+Fin
+
+Sí
+
+↓
+
+Requerimiento = Completado
+
+↓
+
+Actualizar indicadores
+
+Fin
+
+---
+
+# 5.8 Recuperación de Contraseña
+
+## Objetivo
+
+Permitir que un Usuario restablezca su contraseña de forma segura.
+
+## Flujo
+
+Usuario
+
+↓
+
+¿Olvidaste tu contraseña?
+
+↓
+
+Ingresa correo electrónico
+
+↓
+
+Sistema valida existencia
+
+↓
+
+Enviar enlace temporal
+
+↓
+
+Usuario define nueva contraseña
+
+↓
+
+Actualizar password_hash
+
+↓
+
+Mostrar confirmación
+
+Fin
+
+---
+
+
+
+
+

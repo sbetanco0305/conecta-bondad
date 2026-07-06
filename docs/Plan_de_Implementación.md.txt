@@ -1,0 +1,249 @@
+# 6. Plan de Implementación en Lovable
+
+Este capítulo define el orden recomendado para construir el MVP de ConectaBondad utilizando Lovable.
+
+Cada Prompt genera una versión funcional de la aplicación y constituye el punto de partida del siguiente Prompt.
+
+No se deberá comenzar un Prompt sin haber validado completamente el anterior.
+
+---
+
+## Prompt 1 — Crear el Proyecto Base
+
+Crear la estructura inicial del proyecto.
+Toma en cuenta las secciones Visión del Producto, Introducción, Arquitectura Funcional del documento adjunto ConectaBondad.md.txt.
+Este proyecto corresponde a ConectaBondad. Utiliza la especificación como fuente oficial de requerimientos. No inventes funcionalidades que no estén documentadas. Implementa únicamente el alcance descrito a continuación.
+
+## Alcance
+
+- Crear proyecto ConectaBondad.
+- Configurar Supabase.
+- Configurar autenticación.
+- Crear layout principal.
+- Crear menú principal.
+- Crear Portal Público.
+- Crear Portal Administrativo.
+- Configurar navegación.
+- Configurar tema visual.
+- Configurar almacenamiento para imágenes y documentos.
+
+## Resultado esperado
+
+Aplicación funcionando con navegación entre páginas, sin funcionalidades de negocio.
+
+---
+
+## Prompt 2 — Modelo de Datos
+
+Implementar toda la base de datos.
+Toma en cuenta el Capítulo 3 completo (Modelo de Datos) del documento adjunto ConectaBondad.md.txt.
+Implementa exclusivamente el modelo de datos descrito utilizando Supabase/PostgreSQL. Respeta nombres de tablas, campos, tipos de datos, relaciones, restricciones e índices. No construyas interfaces de usuario en este paso.
+
+## Alcance
+
+Crear las tablas:
+
+- usuarios
+- organizaciones
+- colaboradores
+- campañas
+- requerimientos
+- aportes
+
+Crear los catálogos:
+
+- paises
+- estados_provincias
+- ciudades
+- tipos_organizacion
+- tipos_requerimiento
+- prioridades
+- unidades_medida
+
+Crear:
+
+- Primary Keys
+- Foreign Keys
+- Índices
+- Restricciones
+- Valores por defecto
+
+No construir pantallas.
+
+## Resultado esperado
+
+Base de datos completamente funcional.
+
+---
+
+## Prompt 3 — Acceso y Usuarios
+
+Implementar autenticación.
+Toma en cuenta las siguientes secciones del documento adjunto ConectaBondad.md.txt: 3.2 Tabla Usuarios + 4.1 Gestión de Acceso y Usuarios + 5.3 Inicio de Sesión + 5.8 Recuperación de Contraseña.
+Implementa el módulo de autenticación utilizando el modelo de datos existente. No modifiques la estructura de la base de datos. Construye únicamente las pantallas, validaciones y flujos descritos en la especificación.
+
+## Alcance
+
+- Login
+- Logout
+- Recuperar contraseña
+- Registro Organización
+- Registro Colaborador
+- Creación automática de Usuario
+
+## Resultado esperado
+
+Los usuarios podrán autenticarse correctamente.
+
+---
+
+## Prompt 4 — Gestión de Campañas
+
+Construir el módulo administrativo de Campañas.
+Toma en cuenta las siguientes secciones del documento adjunto ConectaBondad.md.txt: 3.4 Tabla Campañas + 4.2 Gestión de Campañas + 5.4 Creación de Campaña.
+Implementa el módulo Gestión de Campañas utilizando las tablas existentes. Construye tanto el módulo administrativo como la página pública de cada campaña. Calcula dinámicamente los indicadores utilizando los requerimientos asociados.
+
+## Alcance
+
+- CRUD
+- Landing pública
+- Indicadores
+- Estados
+- Imágenes
+
+## Resultado esperado
+
+Las Campañas estarán visibles públicamente.
+
+---
+
+## Prompt 5 — Gestión de Organizaciones
+
+Implementar el registro y administración de Organizaciones.
+Toma en cuenta las siguientes secciones del documento adjunto ConectaBondad.md.txt: 3.3 Tabla Organizaciones + 3.2 Tabla Usuarios + 4.2 Gestión de Organizaciones + 5.1 Registro de Organización.
+Implementa el registro y administración de Organizaciones. El registro deberá crear automáticamente el Usuario asociado. Implementa el proceso de verificación documental y el manejo de estados definido en el PRD.
+
+## Alcance
+
+- Registro
+- Consulta
+- Edición
+- Estado
+- Verificación
+- Carga de documentos
+
+## Resultado esperado
+
+Las Organizaciones podrán administrar su perfil.
+
+---
+
+## Prompt 6 — Gestión de Colaboradores
+
+Implementar el módulo de Colaboradores.
+Toma en cuenta las siguientes secciones del documento adjunto ConectaBondad.md.txt: 3.6 Tabla Colaboradores + 3.2 Tabla Usuarios + 4.3 Gestión de Colaboradores + 5.2 Registro de Colaborador.
+Implementa el registro y administración de Colaboradores. El formulario deberá adaptarse según el tipo de colaborador (Persona Natural o Persona Jurídica) y crear automáticamente el Usuario asociado.
+
+
+## Alcance
+
+- Registro
+- Consulta
+- Edición
+- Perfil
+
+## Resultado esperado
+
+Los Colaboradores podrán acceder al Portal.
+
+---
+
+## Prompt 7 — Gestión de Requerimientos
+
+Construir el núcleo operativo del sistema.
+Toma en cuenta las siguientes secciones del documento adjunto ConectaBondad.md.txt: 3.5 Tabla Requerimientos + 4.3 Gestión de Requerimientos + 5.5 Publicación de Requerimiento.
+Implementa el módulo central de Requerimientos respetando el ciclo de vida Borrador → Activo → Parcialmente Cubierto → Completado. Construye el Portal Público utilizando tarjetas y calcula automáticamente cantidades comprometidas, entregadas, disponibles y porcentaje de cobertura.
+
+
+## Alcance
+
+- Crear Requerimiento
+- Editar
+- Borrador
+- Publicar
+- Archivos
+- Tarjetas públicas
+- Barra de progreso
+- Indicadores
+
+## Resultado esperado
+
+Las necesidades aparecerán en el Portal Público.
+
+---
+
+## Prompt 8 — Gestión de Aportes
+
+Implementar todo el ciclo de solidaridad.
+Toma en cuenta las siguientes secciones del documento adjunto ConectaBondad.md.txt: 3.6 Tabla Aportes + 4.4 Gestión de Aportes + 5.6 Registro de Aporte + 5.7 Gestión del Aporte.
+Implementa el flujo completo de Aportes. Antes de confirmar un aporte recalcula la cantidad disponible para evitar sobrecompromisos. Implementa el flujo Pendiente de aceptación → Comprometido → En coordinación → Entregado, actualizando automáticamente el Requerimiento asociado.
+
+## Alcance
+
+- Registrar aporte
+- Validación de disponibilidad
+- Pendiente de aceptación
+- Aceptar
+- Rechazar
+- Coordinación
+- Confirmar entrega
+- Actualización automática del Requerimiento
+
+## Resultado esperado
+
+El ciclo completo de ayuda funcionará de extremo a extremo.
+
+---
+
+## Prompt 9 — Dashboard
+
+Construir Dashboard y Reportes.
+Toma en cuenta las siguientes secciones del documento adjunto ConectaBondad.md.txt: 4.5 Dashboard y Reportes.
+Implementa un Dashboard administrativo con indicadores calculados en tiempo real. No almacenes indicadores en la base de datos. Implementa reportes con búsqueda, filtros, ordenamiento y exportación a Excel.
+
+## Alcance
+
+Indicadores.
+
+Reportes.
+
+Exportación Excel.
+
+## Resultado esperado
+
+Administración completa del sistema.
+
+---
+
+## Prompt 10 — Ajustes Finales
+
+Preparar el MVP para producción.
+Toma en cuenta las siguientes secciones del documento adjunto ConectaBondad.md.txt: Capítulo 5 (Flujos de Trabajo). También el documento HistoriasUsuario_CriteriosAceptacion_CasosPrueba.md.
+Realiza una revisión integral del proyecto. Verifica que todas las Historias de Usuario y Criterios de Aceptación estén implementados correctamente. Corrige inconsistencias, optimiza la interfaz, valida el comportamiento responsive y prepara el proyecto para despliegue.
+
+## Alcance
+
+- Optimización
+- Validaciones
+- Responsive
+- Accesibilidad
+- Mensajes
+- Corrección de errores
+- Revisión de seguridad
+- Pruebas funcionales
+
+## Resultado esperado
+
+Proyecto listo para despliegue.
+
+---

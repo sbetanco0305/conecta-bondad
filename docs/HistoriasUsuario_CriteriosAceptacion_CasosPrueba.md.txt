@@ -1,0 +1,334 @@
+# 7. Historias de Usuario, Criterios de Aceptación y Casos de Prueba
+
+Este capítulo define las Historias de Usuario del MVP de ConectaBondad, junto con sus criterios de aceptación y los casos de prueba funcionales mínimos para validar cada módulo antes de su liberación.
+
+---
+
+# HU-001 Registro de Organización
+
+## Historia de Usuario
+
+**Como** representante de una Organización
+
+**Quiero** registrarme en ConectaBondad
+
+**Para** publicar requerimientos de ayuda.
+
+---
+
+## Criterios de Aceptación
+
+- El formulario solicita toda la información obligatoria.
+- No permite correos electrónicos duplicados.
+- No permite identificadores legales duplicados.
+- Crea automáticamente el Usuario asociado.
+- La Organización queda en estado **Activo**.
+- El estado de verificación queda **Pendiente**.
+- Se envía un correo de bienvenida.
+- El usuario puede iniciar sesión inmediatamente.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Registro con datos válidos | Organización creada correctamente |
+| Correo duplicado | Mostrar error |
+| Identificador legal duplicado | Mostrar error |
+| Documento mayor a 10 MB | Mostrar error |
+| Documento con formato inválido | Mostrar error |
+
+---
+
+# HU-002 Registro de Colaborador
+
+## Historia de Usuario
+
+**Como** persona natural o jurídica
+
+**Quiero** registrarme como Colaborador
+
+**Para** poder realizar Aportes.
+
+---
+
+## Criterios de Aceptación
+
+- Permite seleccionar Persona Natural o Jurídica.
+- El formulario cambia dinámicamente según el tipo seleccionado.
+- Se crea automáticamente el Usuario asociado.
+- El Colaborador queda Activo.
+- Puede iniciar sesión.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Persona Natural | Registro exitoso |
+| Persona Jurídica | Registro exitoso |
+| Correo duplicado | Error |
+| Documento requerido no adjunto | Error |
+
+---
+
+# HU-003 Inicio de Sesión
+
+## Historia de Usuario
+
+**Como** usuario registrado
+
+**Quiero** iniciar sesión
+
+**Para** acceder a las funcionalidades correspondientes a mi rol.
+
+---
+
+## Criterios de Aceptación
+
+- Valida correo y contraseña.
+- Valida tipo de usuario.
+- Redirecciona según el rol.
+- Registra el último acceso.
+- No revela cuál dato es incorrecto cuando falla la autenticación.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Credenciales válidas | Acceso correcto |
+| Contraseña incorrecta | Mensaje de error |
+| Usuario suspendido | Acceso denegado |
+
+---
+
+# HU-004 Recuperar Contraseña
+
+## Historia de Usuario
+
+**Como** usuario registrado
+
+**Quiero** recuperar mi contraseña
+
+**Para** volver a acceder a la plataforma.
+
+---
+
+## Criterios de Aceptación
+
+- Permite ingresar el correo electrónico.
+- Envía un enlace temporal de un solo uso.
+- Permite definir una nueva contraseña.
+- Actualiza el `password_hash`.
+- Invalida enlaces anteriores.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Correo válido | Envío del enlace |
+| Correo inexistente | Mostrar mensaje genérico |
+| Enlace expirado | No permite continuar |
+| Nueva contraseña | Actualización exitosa |
+
+---
+
+# HU-005 Crear Campaña
+
+## Historia de Usuario
+
+**Como** Administrador
+
+**Quiero** crear una Campaña
+
+**Para** agrupar los Requerimientos relacionados.
+
+---
+
+## Criterios de Aceptación
+
+- Solo un Administrador puede crear Campañas.
+- El País es obligatorio.
+- El Tipo de Campaña es obligatorio.
+- Se genera automáticamente el código.
+- La Campaña puede mostrarse públicamente cuando esté Activa.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Crear Campaña válida | Campaña creada |
+| Fecha final menor a fecha inicial | Error |
+| Imagen mayor al tamaño permitido | Error |
+
+---
+
+# HU-006 Publicar Requerimiento
+
+## Historia de Usuario
+
+**Como** Organización
+
+**Quiero** publicar un Requerimiento
+
+**Para** solicitar ayuda a la comunidad.
+
+---
+
+## Criterios de Aceptación
+
+- Puede guardarse como Borrador.
+- Puede publicarse posteriormente.
+- Solo puede asociarse a una Campaña Activa.
+- Se genera automáticamente el código.
+- Se registra la fecha de publicación.
+- Se muestra en el Portal Público.
+- Permite adjuntar hasta tres archivos.
+- Cada archivo tiene un máximo de 2 MB.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Guardar Borrador | Éxito |
+| Publicar | Estado Activo |
+| Adjuntar cuatro archivos | Rechazar el cuarto |
+| PDF de más de 2 MB | Error |
+| Crear sin Campaña | Error |
+
+---
+
+# HU-007 Registrar Aporte
+
+## Historia de Usuario
+
+**Como** Colaborador
+
+**Quiero** registrar un Aporte
+
+**Para** ayudar a cubrir un Requerimiento.
+
+---
+
+## Criterios de Aceptación
+
+- Solo un Colaborador autenticado puede registrar Aportes.
+- El sistema muestra la Cantidad Disponible.
+- Recalcula la disponibilidad antes de guardar.
+- El Aporte inicia como Pendiente de aceptación.
+- Notifica a la Organización.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Registrar Aporte válido | Aporte creado |
+| Cantidad mayor a la disponible | Error |
+| Cambio de disponibilidad durante el registro | Solicitar ajuste |
+| Requerimiento Completado | No permite registrar |
+
+---
+
+# HU-008 Gestionar Aporte
+
+## Historia de Usuario
+
+**Como** Organización
+
+**Quiero** aceptar o rechazar Aportes
+
+**Para** coordinar la ayuda recibida.
+
+---
+
+## Criterios de Aceptación
+
+- Solo la Organización puede aceptar o rechazar.
+- El rechazo requiere un motivo.
+- El estado cambia correctamente.
+- Se notifica al Colaborador.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Aceptar Aporte | Estado Comprometido |
+| Rechazar Aporte | Estado Cancelado |
+| Rechazo sin motivo | Error |
+
+---
+
+# HU-009 Confirmar Entrega
+
+## Historia de Usuario
+
+**Como** Organización
+
+**Quiero** confirmar la recepción de un Aporte
+
+**Para** actualizar el avance del Requerimiento.
+
+---
+
+## Criterios de Aceptación
+
+- Solo la Organización puede confirmar.
+- Permite entrega parcial.
+- Actualiza automáticamente el Requerimiento.
+- Recalcula el porcentaje de cobertura.
+- Cambia a Completado cuando corresponde.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Entrega parcial | Estado actualizado |
+| Entrega total | Requerimiento Completado |
+| Cantidad entregada mayor a comprometida | Error |
+
+---
+
+# HU-010 Consultar Dashboard
+
+## Historia de Usuario
+
+**Como** Administrador
+
+**Quiero** visualizar indicadores de la plataforma
+
+**Para** monitorear su operación e impacto.
+
+---
+
+## Criterios de Aceptación
+
+- Solo el Administrador puede acceder.
+- Los indicadores se calculan en tiempo real.
+- Los reportes permiten filtros.
+- La exportación respeta los filtros aplicados.
+
+---
+
+## Casos de Prueba
+
+| Caso | Resultado esperado |
+|-------|--------------------|
+| Acceso como Administrador | Dashboard visible |
+| Acceso como Organización | Acceso denegado |
+| Exportar reporte filtrado | Exportación correcta |
